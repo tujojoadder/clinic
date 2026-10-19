@@ -7,27 +7,33 @@
         <button type="button" class="btn" data-print>প্রিন্ট</button>
     </form>
 
-    <section class="panel">
-        <div class="panelhead has-tools">
-            <h2>দৈনিক আদায়</h2>
-            <x-per-page :paginator="$daily" />
-        </div>
-        <table>
-            <tr>
-                <th>তারিখ</th>
-                <th>নিট আদায়</th>
-            </tr>
-            @forelse ($daily as $row)
-                <tr>
-                    <td>{{ date_to_view($row->day) }}</td>
-                    <td>{{ \App\Support\Format::money($row->amount) }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="2">এই সময়ে কোনো আদায় নেই।</td>
-                </tr>
-            @endforelse
-        </table>
-        <x-pagination :paginator="$daily" />
-    </section>
+    <x-report-print title="দৈনিক আদায় রিপোর্ট" :from="$from" :to="$to">
+        <section class="panel">
+            <div class="panelhead has-tools">
+                <h2>দৈনিক আদায়</h2>
+                <x-per-page :paginator="$daily" />
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>তারিখ</th>
+                        <th class="num">নিট আদায়</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($daily as $row)
+                        <tr>
+                            <td>{{ date_to_view($row->day) }}</td>
+                            <td class="num">{{ \App\Support\Format::money($row->amount) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="2">এই সময়ে কোনো আদায় নেই।</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            <x-pagination :paginator="$daily" />
+        </section>
+    </x-report-print>
 @endsection

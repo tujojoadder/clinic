@@ -7,29 +7,35 @@
         <button type="button" class="btn" data-print>প্রিন্ট</button>
     </form>
 
-    <section class="panel">
-        <div class="panelhead has-tools">
-            <h2>টেস্ট বিক্রি</h2>
-            <x-per-page :paginator="$sales" />
-        </div>
-        <table>
-            <tr>
-                <th>টেস্ট</th>
-                <th>সংখ্যা</th>
-                <th>চার্জ</th>
-            </tr>
-            @forelse ($sales as $row)
-                <tr>
-                    <td>{{ $row->name }}</td>
-                    <td>{{ $row->count }}</td>
-                    <td>{{ \App\Support\Format::money($row->amount) }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="3">এই সময়ে কোনো টেস্ট বিক্রি নেই।</td>
-                </tr>
-            @endforelse
-        </table>
-        <x-pagination :paginator="$sales" />
-    </section>
+    <x-report-print title="টেস্ট বিক্রি রিপোর্ট" :from="$from" :to="$to">
+        <section class="panel">
+            <div class="panelhead has-tools">
+                <h2>টেস্ট বিক্রি</h2>
+                <x-per-page :paginator="$sales" />
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>টেস্ট</th>
+                        <th class="num">সংখ্যা</th>
+                        <th class="num">চার্জ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($sales as $row)
+                        <tr>
+                            <td>{{ $row->name }}</td>
+                            <td class="num">{{ $row->count }}</td>
+                            <td class="num">{{ \App\Support\Format::money($row->amount) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3">এই সময়ে কোনো টেস্ট বিক্রি নেই।</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            <x-pagination :paginator="$sales" />
+        </section>
+    </x-report-print>
 @endsection

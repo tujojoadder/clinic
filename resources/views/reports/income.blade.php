@@ -7,23 +7,25 @@
         <button type="button" class="btn" data-print>প্রিন্ট</button>
     </form>
 
-    <section class="panel">
-        <div class="panelhead">
-            <h2>আদায় ও ব্যয়</h2>
-        </div>
-        <div class="panelbody summary">
-            <div>
-                <span>নিট আদায়</span>
-                <b>{{ \App\Support\Format::money($income) }}</b>
+    <x-report-print title="আদায় ও ব্যয় রিপোর্ট" :from="$from" :to="$to">
+        <section class="panel">
+            <div class="panelhead">
+                <h2>আদায় ও ব্যয়</h2>
             </div>
-            <div>
-                <span>ব্যয়</span>
-                <b>{{ \App\Support\Format::money($expense) }}</b>
+            <div class="panelbody summary">
+                <div>
+                    <span>নিট আদায়</span>
+                    <b>{{ \App\Support\Format::money($income) }}</b>
+                </div>
+                <div>
+                    <span>ব্যয়</span>
+                    <b>{{ \App\Support\Format::money($expense) }}</b>
+                </div>
+                <div>
+                    <span>আদায় বাদ ব্যয় (লাভ নয়)</span>
+                    <b>{{ \App\Support\Format::money($income - $expense) }}</b>
+                </div>
             </div>
-            <div>
-                <span>আদায় বাদ ব্যয় (লাভ নয়)</span>
-                <b>{{ \App\Support\Format::money($income - $expense) }}</b>
-            </div>
-        </div>
-    </section>
+        </section>
+    </x-report-print>
 @endsection

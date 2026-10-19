@@ -1536,13 +1536,13 @@ main {
     gap: 8px;
     margin: 0;
     color: var(--muted);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
 }
 .per-page select {
     width: auto;
     min-height: 0;
-    padding: 4px 28px 4px 10px;
+    padding: 7px 28px 7px 10px;
 }
 .pager nav {
     margin: 0;
@@ -1587,4 +1587,63 @@ main {
     background: #fff;
     color: #6c757d;
     pointer-events: none;
+}
+
+/* print buton */
+/* ===== প্রিন্ট বাটন (data-print) — আইকনসহ সুন্দর ডিজাইন ===== */
+button[data-print] {
+    --pb-color: #5b5bd6; /* বাটনের মূল রং, এক জায়গায় বদলালেই হবে */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-left: 18px;
+    padding-right: 18px;
+    font-weight: 600;
+    color: var(--pb-color);
+    background: #fff;
+    border: 1.5px solid var(--pb-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition:
+        background 0.2s,
+        color 0.2s,
+        box-shadow 0.2s,
+        transform 0.15s;
+}
+
+/* FontAwesome এর প্রিন্টার আইকন */
+button[data-print]::before {
+    content: "\f02f";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1;
+    transition: transform 0.2s;
+}
+
+button[data-print]:hover {
+    color: #fff;
+    background: linear-gradient(135deg, var(--pb-color), #8b5cf6);
+    border-color: transparent;
+    box-shadow: 0 6px 16px rgba(91, 91, 214, 0.35);
+    transform: translateY(-1px);
+}
+button[data-print]:hover::before {
+    transform: scale(1.15) rotate(-6deg);
+}
+
+button[data-print]:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(91, 91, 214, 0.3);
+}
+
+button[data-print]:focus-visible {
+    outline: 3px solid rgba(91, 91, 214, 0.35);
+    outline-offset: 2px;
+}
+
+@media print {
+    button[data-print] {
+        display: none !important;
+    }
 }

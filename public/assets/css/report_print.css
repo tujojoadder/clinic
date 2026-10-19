@@ -1,0 +1,327 @@
+/* =====================================================================
+   report_print.css — শুধু রিপোর্ট পেজের প্রিন্ট ফরম্যাট
+   <x-report-print> কম্পোনেন্ট এই ফাইল লোড করে।
+   ===================================================================== */
+
+/* ---------- স্ক্রিনে প্রিন্ট-অংশ লুকানো ---------- */
+.rp-fixed,
+.rp-watermark,
+.rp-docinfo,
+.rp-thead,
+.rp-tfoot {
+    display: none;
+}
+
+/* স্ক্রিনে ফ্রেম-টেবিল সাধারণ ব্লকের মতো আচরণ করবে */
+.rp-frame,
+.rp-frame > tbody,
+.rp-frame > tbody > tr,
+.rp-frame > tbody > tr > td {
+    display: block;
+    padding: 0;
+    border: 0;
+}
+
+@media print {
+    /* ---------- সহজে বদলানোর মান (এক জায়গায়) ---------- */
+    :root {
+        --rp-head-h: 32mm; /* হেডার ইমেজের ফিক্স উচ্চতা (চওড়া 210mm) */
+        --rp-foot-h: 18mm; /* ফুটার ইমেজের ফিক্স উচ্চতা */
+        --rp-gap: 4mm; /* হেডার/ফুটারের পর বাড়তি ফাঁকা */
+        --rp-side: 10mm; /* দুই পাশের ফাঁকা */
+        --rp-ink: #1f2937;
+        --rp-accent: #0f766e;
+        --rp-line: #cfd8d6;
+        --rp-soft: #f1f6f5;
+        --rp-muted: #6b7a78;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* ---------- স্ক্রিনের জিনিস লুকানো ---------- */
+    aside,
+    #sideBar,
+    header,
+    .heading,
+    .footer,
+    .printhead,
+    .filters,
+    .noprint,
+    .pager,
+    .per-page,
+    .success,
+    .error,
+    .toast {
+        display: none !important;
+    }
+
+    /* ---------- লেআউট রিসেট (flex/grid/height/overflow বন্ধ, নাহলে পেজ ভাঙে না) ---------- */
+    html,
+    body,
+    main,
+    #content {
+        display: block !important;
+        position: static !important;
+        float: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: 0 !important;
+    }
+    body {
+        color: var(--rp-ink);
+        font-size: 10pt;
+    }
+
+    /* ---------- প্রতি পেজে একই জায়গায়: হেডার, ফুটার, ওয়াটারমার্ক ---------- */
+    .rp-fixed {
+        display: block;
+        position: fixed;
+        left: 0;
+        width: 210mm;
+        z-index: 5;
+        overflow: hidden;
+    }
+    .rp-top {
+        top: 0;
+        height: var(--rp-head-h);
+    }
+    .rp-bottom {
+        bottom: 0;
+        height: var(--rp-foot-h);
+    }
+    .rp-fixed img {
+        display: block;
+        width: 210mm;
+        height: 100%; /* = উপরের ফিক্স উচ্চতা */
+        object-fit: fill; /* ছবি কাটবে না; কাটতে চাইলে cover দিন */
+    }
+
+    .rp-watermark {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+        z-index: -1;
+        pointer-events: none;
+    }
+    .rp-watermark img {
+        width: 130mm;
+        opacity: 0.08;
+        transform: rotate(-30deg);
+    }
+
+    /* ---------- হেডার/ফুটারের জায়গা প্রতি পেজে ফাঁকা রাখার কৌশল (আসল table) ---------- */
+    .rp-frame {
+        display: table;
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .rp-frame > thead {
+        display: table-header-group;
+    }
+    .rp-frame > tbody {
+        display: table-row-group;
+    }
+    .rp-frame > tfoot {
+        display: table-footer-group;
+    }
+    .rp-frame > thead > tr,
+    .rp-frame > tbody > tr,
+    .rp-frame > tfoot > tr {
+        display: table-row;
+    }
+    .rp-frame > thead > tr > td,
+    .rp-frame > tbody > tr > td,
+    .rp-frame > tfoot > tr > td {
+        display: table-cell;
+        padding: 0;
+        border: 0;
+        vertical-align: top;
+    }
+    .rp-space-top {
+        height: calc(var(--rp-head-h) + var(--rp-gap));
+    }
+    .rp-space-bottom {
+        height: calc(var(--rp-foot-h) + var(--rp-gap));
+    }
+    .rp-content {
+        padding: 0 var(--rp-side) !important;
+    }
+
+    /* ---------- রিপোর্টের নাম ও তথ্যবক্স (প্রথম পেজে) ---------- */
+    .rp-docinfo {
+        display: block;
+        margin: 1mm 0 6mm;
+    }
+    .rp-title {
+        margin: 0 0 3mm;
+        text-align: center;
+        font-size: 17pt;
+        font-weight: 700;
+        color: var(--rp-accent);
+        letter-spacing: 0.3px;
+    }
+    .rp-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 6mm;
+        padding: 2.5mm 4mm;
+        background: var(--rp-soft);
+        border: 1px solid var(--rp-line);
+        border-left: 3px solid var(--rp-accent);
+        border-radius: 2mm;
+    }
+    .rp-meta div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5mm;
+    }
+    .rp-meta div:first-child {
+        flex: 2;
+    }
+    .rp-meta span {
+        font-size: 8pt;
+        color: var(--rp-muted);
+    }
+    .rp-meta b {
+        font-size: 10pt;
+        font-weight: 600;
+        color: var(--rp-ink);
+    }
+
+    /* ---------- প্যানেল ও সেকশন-হেডার ---------- */
+    .rp-content .panel {
+        display: block !important;
+        margin: 0 0 6mm !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+        height: auto !important;
+    }
+    .rp-content .panelhead,
+    .rp-content .panelhead.has-tools {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: none !important;
+        border: 0 !important;
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+    .rp-content .panelhead h2 {
+        margin: 0;
+        padding: 2mm 4mm;
+        font-size: 12pt;
+        font-weight: 700;
+        color: #fff !important;
+        background: var(--rp-accent) !important;
+        border-radius: 1.5mm 1.5mm 0 0;
+    }
+    .rp-content .panelbody {
+        padding: 3mm 0 !important;
+        font-size: 11pt;
+        background: transparent !important;
+        overflow: visible !important;
+    }
+
+    /* ---------- সারসংক্ষেপ বক্স (আদায় ও ব্যয়) ---------- */
+    .rp-content .summary {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4mm;
+        padding: 4mm 0 !important;
+    }
+    .rp-content .summary div {
+        padding: 4mm 3mm;
+        text-align: center;
+        background: var(--rp-soft) !important;
+        border: 1px solid var(--rp-line);
+        border-radius: 2mm;
+    }
+    .rp-content .summary span {
+        display: block;
+        margin-bottom: 1.5mm;
+        font-size: 9pt;
+        color: var(--rp-muted);
+    }
+    .rp-content .summary b {
+        font-size: 15pt;
+        color: var(--rp-ink);
+    }
+
+    /* ---------- টেবিল ---------- */
+    .rp-content table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        font-size: 9.5pt;
+        background: transparent !important;
+    }
+    .rp-content thead {
+        display: table-header-group; /* পেজ ভাঙলে হেডার রো আবার আসবে */
+    }
+    .rp-content tfoot {
+        display: table-footer-group;
+    }
+    .rp-content th {
+        padding: 2mm 3mm;
+        text-align: left;
+        font-weight: 700;
+        color: var(--rp-ink) !important;
+        background: #e3efed !important;
+        border: 1px solid var(--rp-line) !important;
+    }
+    .rp-content td {
+        padding: 1.8mm 3mm;
+        text-align: left;
+        vertical-align: middle;
+        border: 1px solid var(--rp-line) !important;
+        background: transparent !important;
+    }
+    .rp-content tbody tr:nth-child(even) td {
+        background: rgba(15, 118, 110, 0.06) !important;
+    }
+
+    /* ---------- পেজ ভাঙার নিয়ম: টেবিল/প্যানেল ভাঙবে, কিন্তু একটা রো কখনো না ---------- */
+    .rp-content .panel,
+    .rp-content .panelbody,
+    .rp-content table,
+    .rp-content tbody {
+        break-inside: auto !important;
+        page-break-inside: auto !important;
+    }
+    .rp-content tr,
+    .rp-content td,
+    .rp-content th {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .rp-content .num {
+        text-align: right !important;
+        white-space: nowrap;
+    }
+    .rp-content a {
+        color: inherit;
+        text-decoration: none;
+    }
+}
