@@ -5,7 +5,7 @@
     // পরে নিজের ইমেজের লিংক দিন
     'header' => asset('assets/images/header.png'),
     'footer' => asset('assets/images/footer.png'),
-    'watermark' => asset('assets/images/watermark.png'),
+    'watermark' => asset('assets/logo.png'),
 ])
 
 @once

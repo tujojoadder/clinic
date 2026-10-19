@@ -124,6 +124,10 @@ tr.total-row td {
         height: 100%; /* = উপরের ফিক্স উচ্চতা */
         object-fit: fill; /* ছবি কাটবে না; কাটতে চাইলে cover দিন */
     }
+    /* ফুটার ছবির নিচের ১mm বাইরে ঠেলে কেটে ফেলা হয় (নিচের কিনারার দাগ ঠেকাতে) */
+    .rp-bottom img {
+        height: calc(100% + 1mm);
+    }
 
     .rp-watermark {
         display: flex;
@@ -282,12 +286,11 @@ tr.total-row td {
         color: var(--rp-ink);
     }
 
-    /* ---------- টেবিল ---------- */
+    /* ---------- টেবিল (কোনো ব্যাকগ্রাউন্ড রঙ নেই, ওয়াটারমার্ক দেখা যাবে) ---------- */
     .rp-content table {
         width: 100% !important;
         border-collapse: collapse !important;
         font-size: 9.5pt;
-        background: transparent !important;
     }
     .rp-content thead {
         display: table-header-group; /* পেজ ভাঙলে হেডার রো আবার আসবে */
@@ -300,18 +303,31 @@ tr.total-row td {
         text-align: left;
         font-weight: 700;
         color: var(--rp-ink) !important;
-        background: #e3efed !important;
         border: 1px solid var(--rp-line) !important;
+        border-bottom: 2px solid var(--rp-accent) !important;
     }
     .rp-content td {
         padding: 1.8mm 3mm;
         text-align: left;
         vertical-align: middle;
         border: 1px solid var(--rp-line) !important;
-        background: transparent !important;
     }
+    .rp-content tbody tr.total-row td {
+        border-top: 2px solid var(--rp-accent) !important;
+        font-weight: 700;
+    }
+
+    /* টেবিলের সব অংশ স্বচ্ছ — app.css থেকে কোনো রঙ ঢুকলেও চাপা পড়বে */
+    .rp-content table,
+    .rp-content thead,
+    .rp-content tbody,
+    .rp-content tfoot,
+    .rp-content tr,
+    .rp-content th,
+    .rp-content td,
     .rp-content tbody tr:nth-child(even) td {
-        background: rgba(15, 118, 110, 0.06) !important;
+        background: transparent !important;
+        background-color: transparent !important;
     }
 
     /* ---------- পেজ ভাঙার নিয়ম: টেবিল/প্যানেল ভাঙবে, কিন্তু একটা রো কখনো না ---------- */
@@ -329,12 +345,6 @@ tr.total-row td {
         page-break-inside: avoid;
     }
 
-    .rp-content tbody tr.total-row td {
-        background: #e3efed !important;
-        border-top: 2px solid var(--rp-accent) !important;
-        font-weight: 700;
-    }
-
     .rp-content .num {
         text-align: right !important;
         white-space: nowrap;
@@ -344,7 +354,3 @@ tr.total-row td {
         text-decoration: none;
     }
 }
-/* .rp-bottom img {
-    height: calc(100% + 1mm);
-}
- */
