@@ -39,7 +39,7 @@ class PatientController extends Controller
 
         $records = $query
             ->latest('id')
-            ->paginate(25)
+            ->paginate(per_page())
             ->withQueryString();
 
         return view('patients.index', [
