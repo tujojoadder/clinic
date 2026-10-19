@@ -1505,3 +1505,86 @@ main {
 .modalhead .close:hover::after {
     background: #dc2626;
 }
+/* ===== Reusable pagination (Bootstrap look) ===== */
+.pager {
+    --pager-color: #0d6efd; /* সক্রিয় পেজের রং, এক জায়গায় বদলালেই হবে */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 16px;
+}
+.pager-info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 14px;
+}
+.panelhead.has-tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.per-page {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 400;
+}
+.per-page select {
+    width: auto;
+    min-height: 0;
+    padding: 4px 28px 4px 10px;
+}
+.pager nav {
+    margin: 0;
+}
+.pager .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: 0;
+}
+.pager .page-link {
+    display: block;
+    position: relative;
+    padding: 6px 12px;
+    margin-left: -1px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    color: var(--pager-color);
+    font-size: 14px;
+    line-height: 1.5;
+    text-decoration: none;
+}
+.pager .page-item:first-child .page-link {
+    margin-left: 0;
+    border-radius: 6px 0 0 6px;
+}
+.pager .page-item:last-child .page-link {
+    border-radius: 0 6px 6px 0;
+}
+.pager a.page-link:hover {
+    background: #e9ecef;
+}
+.pager .page-item.active .page-link {
+    z-index: 1;
+    background: var(--pager-color);
+    border-color: var(--pager-color);
+    color: #fff;
+}
+.pager .page-item.disabled .page-link {
+    background: #fff;
+    color: #6c757d;
+    pointer-events: none;
+}

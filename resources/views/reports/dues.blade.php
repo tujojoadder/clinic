@@ -5,8 +5,9 @@
     </div>
 
     <section class="panel">
-        <div class="panelhead">
+        <div class="panelhead has-tools">
             <h2>বর্তমান বকেয়া</h2>
+            <x-per-page :paginator="$dues" />
         </div>
         <table>
             <tr>
@@ -14,7 +15,7 @@
                 <th>বিল</th>
                 <th>বকেয়া</th>
             </tr>
-            @foreach ($dues as $row)
+            @forelse ($dues as $row)
                 <tr>
                     <td>{{ $row['invoice']->patient->name }}</td>
                     <td>
@@ -23,7 +24,12 @@
                     </td>
                     <td>{{ \App\Support\Format::money($row['due']) }}</td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="3">কোনো বকেয়া নেই।</td>
+                </tr>
+            @endforelse
         </table>
+        <x-pagination :paginator="$dues" />
     </section>
 @endsection

@@ -6,12 +6,6 @@
         <button class="btn primary">রিপোর্ট দেখুন</button>
         <button type="button" class="btn" data-print>প্রিন্ট</button>
     </form>
-    <section class="panel">
-        <div class="panelhead">
-            <h2>ভর্তি ও ডিসচার্জ</h2>
-        </div>
-        <div class="panelbody">ভর্তি: {{ $admitted }} · ডিসচার্জ: {{ $discharged }}</div>
-    </section>
 
     @php
         $statusLabels = ['admitted' => 'ভর্তি আছে', 'discharged' => 'ডিসচার্জ', 'cancelled' => 'বাতিল'];
@@ -20,7 +14,15 @@
 
     <section class="panel">
         <div class="panelhead">
+            <h2>ভর্তি ও ডিসচার্জ</h2>
+        </div>
+        <div class="panelbody">ভর্তি: {{ $admitted }} · ডিসচার্জ: {{ $discharged }}</div>
+    </section>
+
+    <section class="panel">
+        <div class="panelhead has-tools">
             <h2>ভর্তি হওয়া রোগী</h2>
+            <x-per-page :paginator="$admittedList" />
         </div>
         <table>
             <tr>
@@ -35,7 +37,7 @@
                     <td><a href="{{ route('admissions.show', $row->id) }}">ADM-{{ $row->id }}</a></td>
                     <td>{{ $row->patient }}</td>
                     <td>{{ $row->doctor }}</td>
-                    <td>{{ \Carbon\Carbon::parse($row->admitted_at)->format('d-m-Y h:i A') }}</td>
+                    <td>{{ datetime_to_view($row->admitted_at) }}</td>
                     <td>{{ $statusLabels[$row->status] ?? $row->status }}</td>
                 </tr>
             @empty
@@ -44,11 +46,13 @@
                 </tr>
             @endforelse
         </table>
+        <x-pagination :paginator="$admittedList" />
     </section>
 
     <section class="panel">
-        <div class="panelhead">
+        <div class="panelhead has-tools">
             <h2>ডিসচার্জ হওয়া রোগী</h2>
+            <x-per-page :paginator="$dischargedList" />
         </div>
         <table>
             <tr>
@@ -63,7 +67,7 @@
                     <td><a href="{{ route('admissions.show', $row->id) }}">ADM-{{ $row->id }}</a></td>
                     <td>{{ $row->patient }}</td>
                     <td>{{ $row->doctor }}</td>
-                    <td>{{ \Carbon\Carbon::parse($row->discharged_at)->format('d-m-Y h:i A') }}</td>
+                    <td>{{ datetime_to_view($row->discharged_at) }}</td>
                     <td>{{ $typeLabels[$row->discharge_type] ?? $row->discharge_type }}</td>
                 </tr>
             @empty
@@ -72,5 +76,6 @@
                 </tr>
             @endforelse
         </table>
+        <x-pagination :paginator="$dischargedList" />
     </section>
 @endsection

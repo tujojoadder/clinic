@@ -8,20 +8,26 @@
     </form>
 
     <section class="panel">
-        <div class="panelhead">
+        <div class="panelhead has-tools">
             <h2>দৈনিক আদায়</h2>
+            <x-per-page :paginator="$daily" />
         </div>
         <table>
             <tr>
                 <th>তারিখ</th>
                 <th>নিট আদায়</th>
             </tr>
-            @foreach ($daily as $row)
+            @forelse ($daily as $row)
                 <tr>
-                    <td>{{ $row->day }}</td>
+                    <td>{{ date_to_view($row->day) }}</td>
                     <td>{{ \App\Support\Format::money($row->amount) }}</td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="2">এই সময়ে কোনো আদায় নেই।</td>
+                </tr>
+            @endforelse
         </table>
+        <x-pagination :paginator="$daily" />
     </section>
 @endsection

@@ -58,3 +58,14 @@ if (!function_exists('doctorLabel')) {
         return $label;
     }
 }
+
+
+if (!function_exists('per_page')) {
+    // ?per_page=50 → 50 (শুধু 20/50/100 চলবে, না হলে 20)
+    function per_page(int $default = 1): int
+    {
+        $size = (int) request('per_page', $default);
+
+        return in_array($size, [1, 50, 100], true) ? $size : $default;
+    }
+}

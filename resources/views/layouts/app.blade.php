@@ -69,6 +69,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="{{ asset('assets/js/select2-ajax.js') }}?v=2"></script>
     <script src="{{ asset('assets/app.js') }}"></script>
+    <script src="{{ asset('assets/js/pagination.js') }}"></script>
 
     <script>
         /*

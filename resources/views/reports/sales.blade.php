@@ -8,8 +8,9 @@
     </form>
 
     <section class="panel">
-        <div class="panelhead">
+        <div class="panelhead has-tools">
             <h2>টেস্ট বিক্রি</h2>
+            <x-per-page :paginator="$sales" />
         </div>
         <table>
             <tr>
@@ -17,13 +18,18 @@
                 <th>সংখ্যা</th>
                 <th>চার্জ</th>
             </tr>
-            @foreach ($sales as $row)
+            @forelse ($sales as $row)
                 <tr>
                     <td>{{ $row->name }}</td>
                     <td>{{ $row->count }}</td>
                     <td>{{ \App\Support\Format::money($row->amount) }}</td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="3">এই সময়ে কোনো টেস্ট বিক্রি নেই।</td>
+                </tr>
+            @endforelse
         </table>
+        <x-pagination :paginator="$sales" />
     </section>
 @endsection
