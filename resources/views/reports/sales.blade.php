@@ -33,6 +33,14 @@
                             <td colspan="3">এই সময়ে কোনো টেস্ট বিক্রি নেই।</td>
                         </tr>
                     @endforelse
+
+                    @if ($sales->count() > 0)
+                        <tr class="total-row">
+                            <td>মোট</td>
+                            <td class="num">{{ $sales->sum('count') }}</td>
+                            <td class="num">{{ \App\Support\Format::money($sales->sum('amount')) }}</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
             <x-pagination :paginator="$sales" />

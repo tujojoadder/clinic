@@ -31,6 +31,13 @@
                             <td colspan="2">এই সময়ে কোনো আদায় নেই।</td>
                         </tr>
                     @endforelse
+
+                    @if ($daily->count() > 0)
+                        <tr class="total-row">
+                            <td>মোট</td>
+                            <td class="num">{{ \App\Support\Format::money($daily->sum('amount')) }}</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
             <x-pagination :paginator="$daily" />

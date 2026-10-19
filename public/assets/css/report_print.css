@@ -22,6 +22,11 @@
     border: 0;
 }
 
+/* ---------- "এই পেজের মোট" রো (স্ক্রিন + প্রিন্ট) ---------- */
+tr.total-row td {
+    font-weight: 700;
+}
+
 @media print {
     /* ---------- সহজে বদলানোর মান (এক জায়গায়) ---------- */
     :root {
@@ -36,9 +41,17 @@
         --rp-muted: #6b7a78;
     }
 
+    /* নিচে 7mm জায়গা রাখা হয়েছে পেজ নম্বরের জন্য (মান বদলালে নিচের ফুটার ইমেজও সেই পরিমাণ উপরে উঠবে) */
     @page {
         size: A4;
-        margin: 0;
+        margin: 0 0 7mm 0;
+
+        @bottom-center {
+            content: "পৃষ্ঠা " counter(page) " / " counter(pages);
+            font-size: 9pt;
+            color: #6b7a78;
+            vertical-align: middle;
+        }
     }
 
     * {
@@ -316,6 +329,12 @@
         page-break-inside: avoid;
     }
 
+    .rp-content tbody tr.total-row td {
+        background: #e3efed !important;
+        border-top: 2px solid var(--rp-accent) !important;
+        font-weight: 700;
+    }
+
     .rp-content .num {
         text-align: right !important;
         white-space: nowrap;
@@ -325,3 +344,7 @@
         text-decoration: none;
     }
 }
+/* .rp-bottom img {
+    height: calc(100% + 1mm);
+}
+ */

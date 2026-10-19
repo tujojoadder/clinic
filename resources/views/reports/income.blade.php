@@ -12,20 +12,28 @@
             <div class="panelhead">
                 <h2>আদায় ও ব্যয়</h2>
             </div>
-            <div class="panelbody summary">
-                <div>
-                    <span>নিট আদায়</span>
-                    <b>{{ \App\Support\Format::money($income) }}</b>
-                </div>
-                <div>
-                    <span>ব্যয়</span>
-                    <b>{{ \App\Support\Format::money($expense) }}</b>
-                </div>
-                <div>
-                    <span>আদায় বাদ ব্যয় (লাভ নয়)</span>
-                    <b>{{ \App\Support\Format::money($income - $expense) }}</b>
-                </div>
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>বিবরণ</th>
+                        <th class="num">পরিমাণ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>নিট আদায়</td>
+                        <td class="num">{{ \App\Support\Format::money($income) }}</td>
+                    </tr>
+                    <tr>
+                        <td>ব্যয়</td>
+                        <td class="num">{{ \App\Support\Format::money($expense) }}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>আদায় বাদ ব্যয় (লাভ নয়)</td>
+                        <td class="num">{{ \App\Support\Format::money($income - $expense) }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
     </x-report-print>
 @endsection

@@ -33,6 +33,15 @@
                             <td colspan="3">কোনো বকেয়া নেই।</td>
                         </tr>
                     @endforelse
+
+                    @if ($dues->count() > 0)
+                        <tr class="total-row">
+                            <td colspan="2">মোট</td>
+                            <td class="num">
+                                {{ \App\Support\Format::money($dues->getCollection()->sum(fn($row) => $row['due'])) }}
+                            </td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
             <x-pagination :paginator="$dues" />

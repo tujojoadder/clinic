@@ -28,6 +28,13 @@
                             <td colspan="2">কোনো ডাক্তার নেই।</td>
                         </tr>
                     @endforelse
+
+                    @if ($doctorBalances->count() > 0)
+                        <tr class="total-row">
+                            <td> মোট</td>
+                            <td class="num">{{ \App\Support\Format::money($doctorBalances->sum('balance')) }}</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
             <x-pagination :paginator="$doctorBalances" />
