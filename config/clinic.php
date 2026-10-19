@@ -90,7 +90,7 @@ return [
                     true,
                 ],
                 'specialty_id' => [
-                    'বিভাগ',
+                    'স্পেশালিটি',
                     'fk',
                     true,
                     'specialties',
@@ -138,7 +138,7 @@ return [
             'model' => 'App\\Models\\Doctor',
         ],
         'specialties' => [
-            'title' => 'বিভাগ ',
+            'title' => 'স্পেশালিটি ',
             'icon' => 'fa-solid fa-stethoscope',
             'table' => 'specialties',
             'read' => [
@@ -150,7 +150,7 @@ return [
             'write' => [],
             'fields' => [
                 'name' => [
-                    'বিভাগের নাম',
+                    'স্পেশালিটির নাম',
                     'text',
                     true,
                 ],

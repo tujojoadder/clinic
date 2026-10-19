@@ -355,7 +355,7 @@ tr.total-row td {
         border-bottom: 2px solid var(--lp-accent) !important;
     }
     .lp-content td {
-        padding: 1.2mm 2mm;
+        padding: 1mm 1.5mm;
         text-align: left;
         vertical-align: middle;
         white-space: normal !important;
