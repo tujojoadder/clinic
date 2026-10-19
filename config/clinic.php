@@ -582,6 +582,42 @@ return [
             ],
             'write' => [],
         ],
+        'reports_income' => [
+            'title' => 'আদায় ও ব্যয়',
+            'icon' => 'fa-solid fa-coins',
+            'read' => ['cashier'],
+            'write' => [],
+        ],
+        'reports_daily' => [
+            'title' => 'দৈনিক আদায়',
+            'icon' => 'fa-solid fa-calendar-day',
+            'read' => ['cashier'],
+            'write' => [],
+        ],
+        'reports_dues' => [
+            'title' => 'বর্তমান বকেয়া',
+            'icon' => 'fa-solid fa-file-invoice-dollar',
+            'read' => ['cashier'],
+            'write' => [],
+        ],
+        'reports_sales' => [
+            'title' => 'টেস্ট বিক্রি',
+            'icon' => 'fa-solid fa-flask-vial',
+            'read' => ['cashier'],
+            'write' => [],
+        ],
+        'reports_admissions' => [
+            'title' => 'ভর্তি ও ডিসচার্জ',
+            'icon' => 'fa-solid fa-hospital-user',
+            'read' => ['cashier'],
+            'write' => [],
+        ],
+        'reports_doctors' => [
+            'title' => 'ডাক্তারের প্রাপ্য',
+            'icon' => 'fa-solid fa-user-doctor',
+            'read' => ['cashier'],
+            'write' => [],
+        ],
         'users' => [
             'title' => 'ইউজার',
             'icon' => 'fa-solid fa-users',
@@ -752,7 +788,18 @@ return [
             'icon'  => 'fa-solid fa-wallet',
             'items' => ['invoices', 'expenses'],
         ],
-        ['module' => 'reports'],
+        [
+            'title' => 'রিপোর্ট',
+            'icon'  => 'fa-solid fa-chart-line',
+            'items' => [
+                'reports_income',
+                'reports_daily',
+                'reports_dues',
+                'reports_sales',
+                'reports_admissions',
+                'reports_doctors',
+            ],
+        ],
         [
             'title' => 'ইউজার ও সেটিংস',
             'icon'  => 'fa-solid fa-gear',

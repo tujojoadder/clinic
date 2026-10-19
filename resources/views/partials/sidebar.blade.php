@@ -8,9 +8,11 @@
     @php
         $current = $module ?? 'dashboard';
         $modules = \App\Support\Registry::modules();
-        $linkFor = fn($key) => in_array($key, ['dashboard', 'reports', 'settings', 'discharge'])
-            ? route($key)
-            : route($key . '.index');
+        $linkFor = fn($key) => str_starts_with($key, 'reports_')
+            ? route('reports.' . substr($key, 8))
+            : (in_array($key, ['dashboard', 'reports', 'settings', 'discharge'])
+                ? route($key)
+                : route($key . '.index'));
     @endphp
     <nav id="sideNav">
         @foreach (config('clinic.menu') as $i => $entry)

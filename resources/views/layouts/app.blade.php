@@ -29,7 +29,9 @@
             </div>
             <div class="heading">
                 <div>
-                    <div class="eyebrow">CLINIC CARE / {{ $module ?? 'dashboard' }}</div>
+                    <div class="eyebrow">CLINIC CARE /
+                        {{ \App\Support\Registry::modules()[$module ?? 'dashboard']['title'] ?? ($module ?? 'dashboard') }}
+                    </div>
                     <h1>{{ $title ?? 'ড্যাশবোর্ড' }}</h1>
                     <p>রোগী, সেবা ও হিসাব এক জায়গায়</p>
                 </div>

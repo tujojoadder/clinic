@@ -25,7 +25,7 @@ Route::get('/run-migrate', function () {
 //         '--force' => true,
 //     ]);
 
-//     return Artisan::output();
+//     return Artisan::output();  
 // });
 
 Route::middleware(SecurityHeaders::class)->group(function () {
@@ -36,7 +36,13 @@ Route::middleware(SecurityHeaders::class)->group(function () {
     Route::middleware(['auth', ActiveSession::class])->group(function () {
         Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
         Route::get('/', DashboardController::class)->name('dashboard');
-        Route::get('/reports', ReportController::class)->name('reports');
+        Route::get('/reports', [ReportController::class, 'index'])->name('reports');
+        Route::get('/reports/income', [ReportController::class, 'income'])->name('reports.income');
+        Route::get('/reports/daily', [ReportController::class, 'daily'])->name('reports.daily');
+        Route::get('/reports/dues', [ReportController::class, 'dues'])->name('reports.dues');
+        Route::get('/reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
+        Route::get('/reports/admissions', [ReportController::class, 'admissions'])->name('reports.admissions');
+        Route::get('/reports/doctors', [ReportController::class, 'doctors'])->name('reports.doctors');
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
         Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
         Route::get('/discharge', [DashboardController::class, 'discharge'])->name('discharge');
