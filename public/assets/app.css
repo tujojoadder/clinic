@@ -225,7 +225,7 @@ p {
     border: 1px solid var(--line);
     border-radius: 8px;
     background: white;
-    padding: 10px 16px;
+    padding: 8px 20px;
     color: var(--ink);
     display: inline-flex;
     gap: 8px;
@@ -303,6 +303,41 @@ p {
 .filters input,
 .filters select {
     max-width: 260px;
+}
+.filters .filter-row {
+    flex: 0 0 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr)); /* সবসময় ৫টা সমান কলাম */
+    gap: 8px;
+    align-items: center;
+}
+
+.filters .filter-row select,
+.filters .filter-row .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+}
+
+/* ট্যাবলেট: ২টা করে */
+@media (max-width: 992px) {
+    .filters .filter-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* মোবাইল: প্রতিটা আলাদা লাইনে */
+@media (max-width: 576px) {
+    .filters .filter-row {
+        grid-template-columns: 1fr;
+    }
+    /* মোবাইলে রিসেট না থাকলে ফাঁকা জায়গা রাখার দরকার নেই */
+    .filters .filter-reset:empty {
+        display: none;
+    }
 }
 input,
 select,
@@ -1097,7 +1132,7 @@ a.btn {
     margin-right: 4px;
 }
 .list td .abtn.view {
-    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+    background: linear-gradient(135deg, #45697a, #296e7a);
     box-shadow: 0 6px 14px rgba(14, 165, 233, 0.3);
 }
 .list td .abtn.edit {

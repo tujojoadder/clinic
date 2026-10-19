@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VisitRequest;
+use App\Models\Doctor;
 use App\Models\Patient;
+use App\Models\Specialty;
 use App\Models\Visit;
 use App\Services\VisitService;
 use App\Support\Registry;
@@ -14,7 +16,8 @@ class VisitController extends Controller
     public function index(Request $request)
     {
         Registry::authorize('visits');
-        $query = Visit::with('patient', 'doctor', 'reference');
+        $query = Visit::with('patient', 'doctor.specialty', 'reference');
+
         if ($request->filled('q')) {
             $search = mb_substr((string) $request->q, 0, 150);
             $query->where(function ($query) use ($search) {
@@ -23,12 +26,34 @@ class VisitController extends Controller
                 }
                 $query->orWhereHas('patient', fn($q) => $q->where('name', 'like', '%' . $search . '%'))
                     ->orWhereHas('doctor', fn($q) => $q->where('name', 'like', '%' . $search . '%'))
+                    ->orWhereHas('doctor.specialty', fn($q) => $q->where('name', 'like', '%' . $search . '%'))
                     ->orWhereHas('reference', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
+
+        // ড্রপডাউন ফিল্টার (সব AND হিসেবে কাজ করবে)
+        if ($request->filled('specialty_id')) {
+            $query->whereHas('doctor', fn($q) => $q->where('specialty_id', (int) $request->specialty_id));
+        }
+        if ($request->filled('doctor_id')) {
+            $query->where('doctor_id', (int) $request->doctor_id);
+        }
+        if (in_array($request->visit_type, ['new', 'followup'], true)) {
+            $query->where('visit_type', $request->visit_type);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', (string) $request->status);
+        }
+
         $records = $query->latest('id')->paginate(per_page())->withQueryString();
 
-        return view('visits.index', ['module' => 'visits', 'records' => $records]);
+        return view('visits.index', [
+            'module'      => 'visits',
+            'records'     => $records,
+            'specialties' => Specialty::orderBy('name')->get(['id', 'name']),
+            'doctors'     => Doctor::orderBy('name')->get(['id', 'name']),
+            'statuses'    => Visit::query()->distinct()->orderBy('status')->pluck('status'),
+        ]);
     }
 
     public function create()

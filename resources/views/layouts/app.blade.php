@@ -115,6 +115,33 @@
         });
     </script>
 
+    {{-- select2 normal --}}
+    <script>
+        /*
+         * Reusable Select2 — যেকোনো <select> এ শুধু class দিলেই কাজ করবে:
+         *   <select class="js-select2">
+         *   <select class="js-select2" data-placeholder="বেছে নিন">
+         * Modal / ajax দিয়ে HTML লোড হলে: window.initSelect2(modalElement)
+         */
+        window.initSelect2 = function(root) {
+            $(root || document).find('select.js-select2').not('.select2-hidden-accessible').each(function() {
+                var $el = $(this);
+                var $modal = $el.closest('.modal, dialog, [role=dialog]');
+
+                $el.select2({
+                    width: '100%',
+                    minimumResultsForSearch: 8, // ৮টার বেশি অপশন থাকলে তবেই সার্চ বক্স আসবে
+                    placeholder: $el.data('placeholder') || undefined,
+                    dropdownParent: $modal.length ? $modal : $(document.body)
+                });
+            });
+        };
+
+        $(function() {
+            window.initSelect2(document);
+        });
+    </script>
+
     @stack('scripts')
 </body>
 
