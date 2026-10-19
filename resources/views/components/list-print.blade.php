@@ -4,7 +4,7 @@
     'filters' => [], // ঐচ্ছিক: ['লেবেল' => 'মান'] — ফিল্টার ফর্ম থেকে নিজে থেকেই আসে, তাই সাধারণত লাগে না
     'header' => asset('assets/images/header.png'),
     'footer' => asset('assets/images/footer.png'),
-    'watermark' => asset('assets/images/watermark.png'),
+    'watermark' => asset('assets/logo.png'),
 ])
 
 @once

@@ -26,7 +26,7 @@ class VisitController extends Controller
                     ->orWhereHas('reference', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
 
         return view('visits.index', ['module' => 'visits', 'records' => $records]);
     }
