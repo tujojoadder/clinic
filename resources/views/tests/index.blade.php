@@ -1,0 +1,71 @@
+@extends('layouts.app', ['title' => 'টেস্ট ও মূল্য'])
+@section('heading-action')
+    @if (\App\Support\Registry::can('tests', true))
+        <a class="btn primary" href="{{ route('tests.create') }}">+ নতুন এন্ট্রি</a>
+    @endif
+@endsection
+@section('content')
+    <section class="panel list">
+        <div class="filters">
+            <form method="get">
+                <div class="sbox {{ request()->filled('q') ? 'has' : '' }}">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input name="q" value="{{ request('q') }}" placeholder="তথ্য দিয়ে খুঁজুন"
+                        oninput="this.parentNode.classList.toggle('has', this.value !== '')">
+                    <button type="button" class="sclear" title="মুছুন"
+                        onclick="var f=this.form;f.q.value='';@if (request()->filled('q')) f.submit();@else this.parentNode.classList.remove('has');f.q.focus(); @endif"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <button class="btn"><i class="fa-solid fa-magnifying-glass"></i> খুঁজুন</button>
+            </form>
+        </div>
+        <div class="tablewrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>টেস্টের নাম</th>
+                        <th>নমুনা</th>
+                        <th>মূল্য</th>
+                        <th>সময় (ঘণ্টা)</th>
+                        <th>সক্রিয়</th>
+                        <th>অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($records as $record)
+                        <tr>
+                            <td>#{{ $record->id }}</td>
+                            <td>{{ $record->name }}</td>
+                            <td>{{ $record->sample_type }}</td>
+                            <td>{{ $record->price }}</td>
+                            <td>{{ $record->turnaround_hours }}</td>
+                            <td>{{ $record->active ? 'হ্যাঁ' : 'না' }}</td>
+                            <td>
+                                <a class="btn abtn view" href="{{ route('tests.show', $record) }}"><i
+                                        class="fa-solid fa-eye"></i> বিস্তারিত</a>
+                                @if (\App\Support\Registry::can('tests', true))
+                                    <a class="btn abtn edit" href="{{ route('tests.edit', $record) }}"><i
+                                            class="fa-solid fa-pen-to-square"></i> এডিট</a>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7">কোনো তথ্য নেই। নতুন এন্ট্রি করুন।</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <span>মোট {{ $records->total() }} রেকর্ড</span>
+            @if ($records->previousPageUrl())
+                <a class="btn" href="{{ $records->previousPageUrl() }}">← আগের</a>
+            @endif
+            @if ($records->nextPageUrl())
+                <a class="btn" href="{{ $records->nextPageUrl() }}">পরের →</a>
+            @endif
+        </div>
+    </section>
+@endsection

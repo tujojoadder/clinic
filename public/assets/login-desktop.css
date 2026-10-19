@@ -1,0 +1,417 @@
+/* Standalone login stylesheet. Dashboard styles are intentionally not imported. */
+@font-face {
+    font-family: "Hind Siliguri";
+    src: url("../fonts/HindSiliguri-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+.cc-login {
+    margin: 0;
+    color: #163b3c;
+    background: #f7faf9;
+    font-family: "Hind Siliguri", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.cc-login *,
+.cc-login *::before,
+.cc-login *::after {
+    box-sizing: border-box;
+}
+
+.cc-login [hidden] {
+    display: none !important;
+}
+
+.cc-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(420px, 1fr);
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.cc-story {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    min-width: 0;
+    padding: 52px clamp(32px, 4.5vw, 88px);
+    color: #fff;
+    background: #0c5956;
+    isolation: isolate;
+}
+
+.cc-story-backdrop {
+    position: absolute;
+    z-index: -2;
+    inset: -2%;
+    background: url("images/clinic-login-background.webp") center / cover no-repeat;
+    animation: cc-photo-reveal 1.4s ease-out both;
+}
+
+.cc-story::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    content: "";
+    background: linear-gradient(180deg, rgba(3, 41, 41, .52), rgba(3, 45, 43, .48) 30%, rgba(2, 40, 38, .94));
+}
+
+.cc-story::after {
+    position: absolute;
+    z-index: -1;
+    right: -110px;
+    bottom: -110px;
+    width: 400px;
+    height: 400px;
+    border: 1px solid rgba(255, 255, 255, .15);
+    border-radius: 50%;
+    content: "";
+}
+
+.cc-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.cc-mark {
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, .35);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .12);
+    color: inherit;
+    font-size: 38px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.cc-brand strong {
+    display: block;
+    font-size: 26px;
+    letter-spacing: -.8px;
+}
+
+.cc-brand small {
+    display: block;
+    margin-top: 5px;
+    font-size: 9px;
+    font-weight: 650;
+    letter-spacing: 2.4px;
+}
+
+.cc-story-copy {
+    margin-top: 170px;
+    padding: 60px 0 70px;
+    animation: cc-enter .8s .1s ease-out both;
+}
+
+.cc-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #d5efdf;
+    font-size: 13px;
+}
+
+.cc-kicker > span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #a0dfb4;
+    box-shadow: 0 0 0 5px rgba(160, 223, 180, .12);
+    animation: cc-glow 3s ease-in-out infinite;
+}
+
+.cc-story h1 {
+    margin: 23px 0;
+    font-size: clamp(32px, 3.1vw, 58px);
+    font-weight: 600;
+    letter-spacing: -.8px;
+    line-height: 1.55;
+}
+
+.cc-story-copy > p {
+    margin: 0;
+    color: #dbebe7;
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+.cc-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+}
+
+.cc-pills > span {
+    padding: 10px 15px;
+    border: 1px solid rgba(255, 255, 255, .23);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, .07);
+    color: #e6f2ef;
+    font-size: 12px;
+}
+
+.cc-story-footer {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #c9ded9;
+    font-size: 11px;
+}
+
+.cc-line {
+    width: 32px;
+    height: 1px;
+    flex-shrink: 0;
+    background: #87b9aa;
+}
+
+.cc-main {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: 90px clamp(30px, 5vw, 110px) 120px;
+    background: radial-gradient(ellipse at top right, #e8f3ee 0, transparent 60%), #f9fbfa;
+}
+
+.cc-form-panel {
+    width: 100%;
+    max-width: 420px;
+    animation: cc-enter .8s .2s ease-out both;
+}
+
+.cc-mobile-brand {
+    display: none;
+}
+
+.cc-eyebrow {
+    color: #087f72;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+}
+
+.cc-form-panel h2 {
+    margin: 19px 0 13px;
+    font-size: clamp(28px, 2.1vw, 38px);
+    font-weight: 650;
+    line-height: 1.5;
+}
+
+.cc-description {
+    margin: 0 0 37px;
+    color: #627773;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.cc-field {
+    margin-bottom: 24px;
+}
+
+.cc-field label {
+    display: block;
+    margin-bottom: 10px;
+    color: #254640;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.cc-field input {
+    display: block;
+    width: 100%;
+    height: 56px;
+    padding: 0 16px;
+    border: 1px solid #cddbd5;
+    border-radius: 10px;
+    outline: none;
+    background: #fff;
+    color: #163b3c;
+    font: inherit;
+    font-size: 16px;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.cc-field input::placeholder {
+    color: #83958e;
+    font-size: 13px;
+}
+
+.cc-field input:focus {
+    border-color: #078272;
+    box-shadow: 0 0 0 4px rgba(7, 130, 114, .1);
+}
+
+.cc-password-wrap {
+    position: relative;
+}
+
+.cc-password-wrap input {
+    padding-right: 84px;
+}
+
+.cc-password-toggle {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    min-width: 60px;
+    height: 40px;
+    padding: 0 9px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #087565;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.cc-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 56px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 10px;
+    background: #087d70;
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 650;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(8, 125, 112, .12);
+    transition: background .2s, transform .2s;
+}
+
+.cc-submit:hover {
+    transform: translateY(-2px);
+    background: #07695f;
+}
+
+.cc-submit:active {
+    transform: translateY(0);
+}
+
+.cc-login button:focus-visible {
+    outline: 3px solid #6cbfa6;
+    outline-offset: 3px;
+}
+
+.cc-help {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 30px;
+    padding-top: 26px;
+    border-top: 1px solid #dde6e1;
+}
+
+.cc-help-icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border: 1px solid #cddbd5;
+    border-radius: 50%;
+    color: #68827a;
+    font-size: 14px;
+}
+
+.cc-help p {
+    margin: 0;
+    color: #627773;
+    font-size: 11px;
+    line-height: 1.9;
+}
+
+.cc-footer {
+    position: absolute;
+    right: 36px;
+    bottom: 30px;
+    left: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    color: #70867e;
+    font-size: 10px;
+}
+
+.cc-error {
+    margin-bottom: 24px;
+    padding: 14px 16px;
+    border: 1px solid #edc9c1;
+    border-radius: 10px;
+    background: #fff2ef;
+    color: #963a2c;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.cc-caps-warning {
+    display: block;
+    margin-top: 9px;
+    color: #936017;
+    font-size: 12px;
+}
+
+@keyframes cc-enter {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cc-photo-reveal {
+    from { opacity: .5; transform: scale(1.035); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cc-glow {
+    50% { box-shadow: 0 0 0 8px rgba(160, 223, 180, .04); }
+}
+
+@media (min-width: 1800px) {
+    .cc-story { padding-left: 110px; padding-right: 80px; }
+    .cc-main { padding-left: 100px; padding-right: 100px; }
+}
+
+@media (max-width: 1000px) {
+    .cc-shell { grid-template-columns: minmax(0, 1fr) minmax(360px, 1fr); }
+    .cc-story { padding: 36px 28px; }
+    .cc-story h1 { font-size: 32px; }
+    .cc-main { padding-left: 30px; padding-right: 30px; }
+    .cc-story-copy > p { font-size: 14px; }
+}
+
+@media (max-width: 760px) {
+    .cc-shell { grid-template-columns: minmax(0, 1fr); }
+    .cc-story { display: none; }
+    .cc-main { min-height: 100vh; min-height: 100dvh; padding: 42px 24px 100px; }
+    .cc-mobile-brand { display: flex; margin-bottom: 50px; color: #087d70; }
+    .cc-mobile-brand .cc-mark { border-color: #c5ded2; background: #e4f1e9; }
+    .cc-brand strong { font-size: 23px; }
+    .cc-footer { right: 24px; left: 24px; font-size: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cc-login *, .cc-login *::before, .cc-login *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

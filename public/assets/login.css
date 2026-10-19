@@ -1,0 +1,328 @@
+.clinic-login {
+    margin: 0;
+    background: #f3f8f7;
+    color: #203c40;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.clinic-login *,
+.clinic-login *::before,
+.clinic-login *::after {
+    box-sizing: border-box;
+}
+
+.clinic-login .login-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.clinic-login .login-intro {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 56px clamp(30px, 5vw, 90px);
+    background: linear-gradient(145deg, #075f59, #098b80);
+    color: #ffffff;
+}
+
+.clinic-login .login-intro::after {
+    position: absolute;
+    right: -65px;
+    bottom: -170px;
+    content: "+";
+    color: rgba(255, 255, 255, 0.06);
+    font-size: 580px;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.clinic-login .login-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 25px;
+    font-weight: 750;
+}
+
+.clinic-login .login-logo {
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.12);
+    font-size: 36px;
+    line-height: 1;
+}
+
+.clinic-login .login-brand small {
+    display: block;
+    margin-top: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+}
+
+.clinic-login .login-intro-content {
+    position: relative;
+    z-index: 1;
+    margin: 60px 0;
+}
+
+.clinic-login .login-badge {
+    display: inline-block;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 12px;
+}
+
+.clinic-login .login-intro h1 {
+    margin: 24px 0 18px;
+    color: #ffffff;
+    font-size: clamp(32px, 3.3vw, 48px);
+    font-weight: 650;
+    line-height: 1.5;
+}
+
+.clinic-login .login-intro-content > p {
+    max-width: 420px;
+    margin: 0;
+    color: #d1eeea;
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+.clinic-login .login-features {
+    display: grid;
+    gap: 18px;
+    margin: 34px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.clinic-login .login-features li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.clinic-login .login-features li::before {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+    content: "✓";
+}
+
+.clinic-login .login-intro-footer {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #c0e3de;
+    font-size: 12px;
+}
+
+.clinic-login .login-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 30px;
+}
+
+.clinic-login .login-panel {
+    width: 100%;
+    max-width: 420px;
+}
+
+.clinic-login .login-mobile-brand {
+    display: none;
+}
+
+.clinic-login .login-eyebrow {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 30px;
+    background: #e0efeb;
+    color: #087d72;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.clinic-login .login-panel h2 {
+    margin: 24px 0 10px;
+    color: #203c40;
+    font-size: 32px;
+    line-height: 1.4;
+}
+
+.clinic-login .login-description {
+    margin: 0 0 32px;
+    color: #728582;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.clinic-login .login-field {
+    margin-bottom: 22px;
+}
+
+.clinic-login .login-field label {
+    display: block;
+    margin-bottom: 9px;
+    color: #294743;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.clinic-login .login-field input {
+    display: block;
+    width: 100%;
+    height: 54px;
+    margin: 0;
+    padding: 0 16px;
+    border: 1px solid #d1dfdb;
+    border-radius: 10px;
+    outline: none;
+    background: #ffffff;
+    color: #203c40;
+    font: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.clinic-login .login-field input:focus {
+    border-color: #087d72;
+    box-shadow: 0 0 0 3px rgba(8, 125, 114, 0.1);
+}
+
+.clinic-login .login-field input::placeholder {
+    color: #92a29e;
+}
+
+.clinic-login .login-password {
+    position: relative;
+}
+
+.clinic-login .login-password input {
+    padding-right: 82px;
+}
+
+.clinic-login .login-password-toggle {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: auto;
+    height: 38px;
+    margin: 0;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #087d72;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.clinic-login .login-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    height: 54px;
+    margin: 4px 0 0;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 10px;
+    background: #087d72;
+    color: #ffffff;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.clinic-login .login-submit:hover {
+    background: #06665d;
+}
+
+.clinic-login button:focus-visible {
+    outline: 3px solid #73bfb2;
+    outline-offset: 3px;
+}
+
+.clinic-login .login-error {
+    margin-bottom: 22px;
+    padding: 14px 16px;
+    border: 1px solid #f1c8c1;
+    border-radius: 10px;
+    background: #fff0ed;
+    color: #a1372b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.clinic-login .login-help {
+    margin: 26px 0 0;
+    color: #728582;
+    font-size: 13px;
+    line-height: 1.9;
+    text-align: center;
+}
+
+.clinic-login .login-copyright {
+    margin-top: 46px;
+    color: #879994;
+    font-size: 12px;
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+    .clinic-login .login-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .clinic-login .login-intro {
+        display: none;
+    }
+
+    .clinic-login .login-main {
+        padding: 36px 24px;
+    }
+
+    .clinic-login .login-mobile-brand {
+        display: flex;
+        margin-bottom: 40px;
+        color: #087d72;
+    }
+
+    .clinic-login .login-mobile-brand .login-logo {
+        border-color: #c9e4dc;
+        background: #e0efeb;
+    }
+
+    .clinic-login .login-panel h2 {
+        font-size: 29px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .clinic-login .login-field input,
+    .clinic-login .login-submit {
+        transition: none;
+    }
+}

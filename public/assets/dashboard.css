@@ -1,0 +1,446 @@
+/* ===== Clinic Care - Dashboard modern theme (works with the current blade) ===== */
+/* public/assets/dashboard.css */
+
+.dash {
+    --ink: #1e293b;
+    --muted: #64748b;
+    --line: #eef2f7;
+    --card: #fff;
+    --shadow: 0 6px 22px rgba(15, 23, 42, 0.07);
+}
+
+/* ---------- Stat cards ---------- */
+.dash .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 18px;
+    margin-bottom: 22px;
+}
+.dash .stat {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    color: #fff;
+    border: 0;
+    border-radius: 20px;
+    padding: 22px 22px 20px;
+    background:
+        radial-gradient(
+            circle at 100% 0,
+            rgba(255, 255, 255, 0.22) 0 72px,
+            transparent 73px
+        ),
+        radial-gradient(
+            circle at 78% 112%,
+            rgba(255, 255, 255, 0.15) 0 64px,
+            transparent 65px
+        ),
+        linear-gradient(135deg, var(--g1), var(--g2));
+    box-shadow: 0 12px 26px var(--sh, rgba(0, 0, 0, 0.15));
+    transition:
+        transform 0.22s,
+        box-shadow 0.22s;
+}
+.dash .stat:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 38px var(--sh, rgba(0, 0, 0, 0.22));
+}
+.dash .stat:active {
+    transform: translateY(-1px);
+}
+.dash .stat.nolink {
+    cursor: default;
+}
+.dash .stat.nolink:hover {
+    transform: none;
+}
+.dash .stat .top {
+    font-size: 17px;
+    font-weight: 600;
+    opacity: 0.95;
+    color: #fff;
+    padding-right: 54px;
+}
+.dash .stat strong {
+    display: block;
+    margin: 10px 0 2px;
+    font-size: 36px;
+    line-height: 1.15;
+    color: #fff;
+    letter-spacing: -0.5px;
+}
+.dash .stat small {
+    display: block;
+    color: #fff;
+    opacity: 0.88;
+    padding-bottom: 18px;
+}
+.dash .stat .sicon {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.24);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+.dash .stat::after {
+    content: "বিস্তারিত  →";
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.2s;
+}
+.dash .stat:hover::after {
+    opacity: 0.95;
+    transform: none;
+}
+.dash .stat.nolink::after {
+    display: none;
+}
+.dash .stat.c0 {
+    --g1: #6366f1;
+    --g2: #8b5cf6;
+    --sh: rgba(99, 102, 241, 0.4);
+}
+.dash .stat.c1 {
+    --g1: #0ea5e9;
+    --g2: #06b6d4;
+    --sh: rgba(14, 165, 233, 0.4);
+}
+.dash .stat.c2 {
+    --g1: #10b981;
+    --g2: #34d399;
+    --sh: rgba(16, 185, 129, 0.4);
+}
+.dash .stat.c3 {
+    --g1: #f59e0b;
+    --g2: #f97316;
+    --sh: rgba(245, 158, 11, 0.4);
+}
+.dash .stat.c4 {
+    --g1: #ec4899;
+    --g2: #f43f5e;
+    --sh: rgba(236, 72, 153, 0.4);
+}
+
+/* ---------- Quick action buttons (no background) ---------- */
+.dash .quick {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+}
+.dash .qbtn {
+    color: #fff;
+    border: 0;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+    transition:
+        transform 0.15s,
+        filter 0.15s,
+        box-shadow 0.15s;
+}
+.dash .qbtn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+}
+.dash .q-patients {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+.dash .q-visits {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+}
+.dash .q-admissions {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+.dash .q-lab_orders {
+    background: linear-gradient(135deg, #ec4899, #f43f5e);
+}
+
+/* ---------- Panels ---------- */
+.dash .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+.dash .panel {
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+.dash .grid .panel {
+    margin-bottom: 0;
+}
+.dash .panelhead {
+    padding: 16px 22px;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    border-left: 5px solid #6366f1;
+}
+.dash .p-lab .panelhead {
+    border-left-color: #06b6d4;
+}
+.dash .p-adm .panelhead {
+    border-left-color: #10b981;
+}
+.dash .panelhead h2 {
+    margin: 0;
+    font-size: 17px;
+    color: var(--ink);
+}
+.dash .panelbody {
+    padding: 18px 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.dash .p-lab .panelbody {
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+/* ---------- Table ---------- */
+.dash .tablewrap {
+    overflow-x: auto;
+}
+.dash table {
+    width: 100%;
+    border-collapse: collapse;
+    counter-reset: row;
+}
+.dash th {
+    background: #f8fafc;
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    text-align: left;
+    padding: 12px 18px;
+    white-space: nowrap;
+}
+.dash td {
+    padding: 13px 18px;
+    border-top: 1px solid var(--line);
+    color: #334155;
+    vertical-align: middle;
+}
+.dash tr:nth-child(even) td {
+    background: #fcfcfe;
+}
+.dash tr:hover td {
+    background: #f5f3ff;
+}
+.dash td:first-child {
+    counter-increment: row;
+    font-weight: 700;
+    color: var(--ink);
+    white-space: nowrap;
+}
+.dash td:first-child::before {
+    content: counter(row);
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    vertical-align: middle;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+.dash td:nth-child(3) {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
+}
+
+/* ---------- Badges ---------- */
+.dash .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: #e2e8f0;
+    color: #334155;
+}
+.dash .badge::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+.dash .s-scheduled,
+.dash .s-ordered,
+.dash .s-pending {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+.dash .s-waiting,
+.dash .s-collected {
+    background: #fef3c7;
+    color: #b45309;
+}
+.dash .s-processing,
+.dash .s-review,
+.dash .s-in_progress {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+.dash .s-completed,
+.dash .s-approved,
+.dash .s-admitted {
+    background: #d1fae5;
+    color: #047857;
+}
+.dash .s-cancelled {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* ---------- Lab rows ---------- */
+.dash .doctor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid var(--line);
+    border-left: 5px solid #94a3b8;
+    transition:
+        transform 0.18s,
+        box-shadow 0.18s;
+}
+.dash .doctor:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+.dash .doctor span:last-child {
+    min-width: 48px;
+    text-align: center;
+    padding: 3px 12px;
+    border-radius: 10px;
+    font-weight: 800;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+}
+.dash .doctor:has(.s-scheduled),
+.dash .doctor:has(.s-ordered),
+.dash .doctor:has(.s-pending) {
+    border-left-color: #3b82f6;
+}
+.dash .doctor:has(.s-waiting),
+.dash .doctor:has(.s-collected) {
+    border-left-color: #f59e0b;
+}
+.dash .doctor:has(.s-processing),
+.dash .doctor:has(.s-review),
+.dash .doctor:has(.s-in_progress) {
+    border-left-color: #8b5cf6;
+}
+.dash .doctor:has(.s-completed),
+.dash .doctor:has(.s-approved),
+.dash .doctor:has(.s-admitted) {
+    border-left-color: #10b981;
+}
+.dash .doctor:has(.s-cancelled) {
+    border-left-color: #ef4444;
+}
+
+/* ---------- Recent admissions ---------- */
+.dash .p-adm .panelbody a.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 240px;
+    max-width: 100%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--ink);
+    background: linear-gradient(135deg, #f0fdf4, #ecfeff);
+    border: 1px solid #bbf7d0;
+    box-shadow: none;
+    transition:
+        transform 0.18s,
+        box-shadow 0.18s,
+        border-color 0.18s;
+}
+.dash .p-adm .panelbody a.btn::before {
+    content: "🛏️";
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+.dash .p-adm .panelbody a.btn::after {
+    content: "→";
+    margin-left: auto;
+    color: #10b981;
+    font-weight: 800;
+    font-size: 18px;
+    transition: transform 0.18s;
+}
+.dash .p-adm .panelbody a.btn:hover {
+    transform: translateY(-3px);
+    border-color: #5eead4;
+    box-shadow: 0 12px 24px rgba(16, 185, 129, 0.18);
+    color: var(--ink);
+}
+.dash .p-adm .panelbody a.btn:hover::after {
+    transform: translateX(4px);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+    .dash .grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 640px) {
+    .dash .stat strong {
+        font-size: 29px;
+    }
+    .dash .panelbody {
+        padding: 14px;
+    }
+}

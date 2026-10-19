@@ -1,0 +1,225 @@
+/* public/assets/css/sidebar.css - সাইডবারের মেনু ট্যাব ও স্ক্রলবার */
+
+/* ---------- সাইডবারের প্রস্থ (width) ----------
+   এখানের মান বদলালেই সাইডবার ছোট/বড় হবে (280–320px ভালো) */
+:root {
+    --sidebar-w: 260px;
+}
+
+#sideBar,
+aside {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    flex: none;
+}
+
+/* app.css এ main এর margin-left / grid-template-columns এ পুরোনো width (যেমন 260px) থাকলে
+   সেটাও var(--sidebar-w) করে দিতে হবে। নিচের লাইনটি শুধু তখনই দরকার যখন main এ margin-left ব্যবহার হয়: */
+/* main { margin-left: var(--sidebar-w); } */
+
+/* মোবাইলে সাইডবারের প্রস্থ ভাঙবে না */
+@media (max-width: 900px) {
+    #sideBar,
+    aside {
+        width: min(var(--sidebar-w), 86vw);
+        min-width: 0;
+    }
+}
+
+/* ---------- স্ক্রলবার ও জায়গা ---------- */
+#sideNav {
+    padding-right: 14px; /* মেনু আইটেম ও স্ক্রলবারের মাঝের ফাঁক */
+    padding-left: 2px;
+    margin-right: -8px; /* স্ক্রলবার ডান দিকে সরানো */
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* মেনুগুলোর মাঝের ফাঁক */
+}
+
+#sideNav::-webkit-scrollbar {
+    width: 6px;
+}
+#sideNav::-webkit-scrollbar-track {
+    background: transparent;
+}
+#sideNav::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+}
+#sideNav::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+#sideNav::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+}
+.navicon {
+    display: inline-block;
+    width: 1.4em;
+    text-align: center;
+}
+
+/* ---------- মেনু ট্যাব ---------- */
+#sideNav a.btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: none;
+    color: #334155;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        background 0.15s,
+        color 0.15s,
+        transform 0.15s;
+}
+
+/* আইকনের ছোট বক্স */
+#sideNav a.btn .navicon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 16px;
+    transition:
+        background 0.15s,
+        color 0.15s;
+}
+
+/* মাউস নিলে */
+#sideNav a.btn:hover {
+    background: #ecfdf5;
+    color: #0f766e;
+    transform: translateX(3px);
+}
+#sideNav a.btn:hover .navicon {
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+/* সক্রিয় মেনু */
+#sideNav a.btn.primary {
+    background: #0f766e;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(26, 173, 161, 0.28);
+}
+#sideNav a.btn.primary .navicon {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+#sideNav a.btn.primary:hover {
+    transform: none;
+}
+
+/* ---------- গ্রুপ মেনু (সাবমেনু সহ) ---------- */
+.navgroup-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    color: #334155;
+    font: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        color 0.15s;
+}
+.navgroup-head .navicon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 16px;
+    transition:
+        background 0.15s,
+        color 0.15s;
+}
+.navgroup-head .navtitle {
+    flex: 1;
+}
+.navgroup-head .chev {
+    font-size: 11px;
+    color: #94a3b8;
+    transition: transform 0.25s ease;
+}
+.navgroup.open > .navgroup-head .chev {
+    transform: rotate(180deg);
+}
+.navgroup-head:hover {
+    background: #ecfdf5;
+    color: #0f766e;
+}
+.navgroup-head:hover .navicon {
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+/* যে গ্রুপে এখন আছি */
+.navgroup.has-active > .navgroup-head {
+    background: #f0fdfa;
+    color: #0f766e;
+}
+.navgroup.has-active > .navgroup-head .navicon {
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+/* খোলা-বন্ধ হওয়ার স্মুথ অ্যানিমেশন */
+.navsub {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease;
+}
+.navgroup.open > .navsub {
+    grid-template-rows: 1fr;
+}
+.navsub-inner {
+    min-height: 0;
+    overflow: hidden;
+}
+.navsub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin: 4px 0 6px 25px;
+    padding-left: 10px;
+    border-left: 2px solid #e2e8f0;
+}
+#sideNav .navsub a.btn {
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 16.5px;
+}
+#sideNav .navsub a.btn .navicon {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    font-size: 13px;
+}
