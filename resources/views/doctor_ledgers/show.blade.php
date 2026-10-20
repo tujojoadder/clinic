@@ -10,7 +10,7 @@
                 <div><label>ডাক্তার</label><strong>{{ $record->doctor?->name ?? '#' . $record->doctor_id }}</strong></div>
                 <div><label>এন্ট্রি</label><strong>{{ $types[$record->type] ?? $record->type }}</strong></div>
                 <div><label>পরিমাণ</label><strong>{{ $record->amount }}</strong></div>
-                <div><label>তারিখ</label><strong>{{ $record->entry_date }}</strong></div>
+                <div><label>তারিখ</label><strong>{{ date_to_view($record->entry_date) }}</strong></div>
                 <div><label>বিবরণ</label><strong>{{ $record->notes }}</strong></div>
             </div>
             <div class="actions noprint">

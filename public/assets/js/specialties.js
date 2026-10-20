@@ -51,6 +51,7 @@
         c3.className = "sp-count";
         c3.textContent = d.doctors_count;
         const c4 = document.createElement("td");
+        c4.className = "noprint";
         c4.appendChild(
             btn("data-spec-edit", "edit", "fa-pen-to-square", "এডিট"),
         );

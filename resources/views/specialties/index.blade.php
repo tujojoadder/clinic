@@ -9,59 +9,61 @@
 @endsection
 
 @section('content')
-    <section class="panel list">
-        <div class="filters">
-            <form method="get">
-                <div class="sbox {{ request()->filled('q') ? 'has' : '' }}">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input name="q" value="{{ request('q') }}" placeholder="নাম দিয়ে খুঁজুন">
+    <x-list-print title="বিভাগের তালিকা" :paginator="$records">
+        <section class="panel list">
+            <div class="filters">
+                <form method="get" id="specFilter">
+                    @if (request()->filled('per_page'))
+                        <input type="hidden" name="per_page" value="{{ per_page() }}">
+                    @endif
+                    <div class="sbox {{ request()->filled('q') ? 'has' : '' }}">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input name="q" value="{{ request('q') }}" placeholder="নাম দিয়ে খুঁজুন">
+                    </div>
+                    <button class="btn"><i class="fa-solid fa-magnifying-glass"></i> খুঁজুন</button>
+                </form>
+                <div class="filters-right">
+                    <x-per-page :paginator="$records" />
+                    <x-print-button />
                 </div>
-                <button class="btn"><i class="fa-solid fa-magnifying-glass"></i> খুঁজুন</button>
-            </form>
-        </div>
-        <div class="tablewrap">
-            <table id="specTable" data-base="{{ route('specialties.index') }}" data-can-write="{{ $canWrite ? '1' : '0' }}">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>বিভাগের নাম</th>
-                        <th>ডাক্তার</th>
-                        <th>অ্যাকশন</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($records as $record)
-                        <tr data-id="{{ $record->id }}">
-                            <td>#{{ $record->id }}</td>
-                            <td class="sp-name">{{ $record->name }}</td>
-                            <td class="sp-count">{{ $record->doctors_count }}</td>
-                            <td>
-                                @if ($canWrite)
-                                    <button type="button" class="btn abtn edit" data-spec-edit><i
-                                            class="fa-solid fa-pen-to-square"></i> এডিট</button>
-                                    <button type="button" class="btn abtn danger" data-spec-del><i
-                                            class="fa-solid fa-trash"></i> ডিলেট</button>
-                                @endif
-                            </td>
+            </div>
+            <div class="tablewrap">
+                <table id="specTable" data-base="{{ route('specialties.index') }}"
+                    data-can-write="{{ $canWrite ? '1' : '0' }}">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>বিভাগের নাম</th>
+                            <th>ডাক্তার</th>
+                            <th class="noprint">অ্যাকশন</th>
                         </tr>
-                    @empty
-                        <tr class="sp-empty">
-                            <td colspan="4">কোনো তথ্য নেই। নতুন বিভাগ যোগ করুন।</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-        <div class="pagination">
-            <span>মোট {{ $records->total() }} রেকর্ড</span>
-            @if ($records->previousPageUrl())
-                <a class="btn" href="{{ $records->previousPageUrl() }}">← আগের</a>
-            @endif
-            @if ($records->nextPageUrl())
-                <a class="btn" href="{{ $records->nextPageUrl() }}">পরের →</a>
-            @endif
-        </div>
-    </section>
+                    </thead>
+                    <tbody>
+                        @forelse($records as $record)
+                            <tr data-id="{{ $record->id }}">
+                                <td>#{{ $record->id }}</td>
+                                <td class="sp-name">{{ $record->name }}</td>
+                                <td class="sp-count">{{ $record->doctors_count }}</td>
+                                <td class="noprint">
+                                    @if ($canWrite)
+                                        <button type="button" class="btn abtn edit" data-spec-edit><i
+                                                class="fa-solid fa-pen-to-square"></i> এডিট</button>
+                                        <button type="button" class="btn abtn danger" data-spec-del><i
+                                                class="fa-solid fa-trash"></i> ডিলেট</button>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr class="sp-empty">
+                                <td colspan="4">কোনো তথ্য নেই। নতুন বিভাগ যোগ করুন।</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <x-pagination :paginator="$records" />
+        </section>
+    </x-list-print>
 
     @if ($canWrite)
         <dialog id="specDialog" data-quick-modal>

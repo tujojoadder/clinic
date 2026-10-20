@@ -69,25 +69,45 @@
                     </div>
                 @endforeach
             </div>
-            <div style="margin: 15px">
-                <button class="btn noprint" data-print>প্রিন্ট</button>
-            </div>
 
-            @if ($record->status === 'open' && !$record->admission_id && \App\Support\Registry::can('invoices', true))
-                <form method="post"
-                    action="{{ route('workflows.action', ['invoices', $record->id, 'invoice_state']) }}"
-                    class="noprint">@csrf<input type="hidden" name="state" value="finalized">
-                    <button class="btn">চূড়ান্ত করুন</button>
-                </form>
-                @if (auth()->user()->role === 'admin')
+            <div style="display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:15px;">
+
+                {{-- প্রিন্ট --}}
+                <button type="button" class="btn noprint" data-print>
+                    প্রিন্ট
+                </button>
+
+                @if ($record->status === 'open' && !$record->admission_id && \App\Support\Registry::can('invoices', true))
+
+                    {{-- চূড়ান্ত করুন --}}
                     <form method="post"
                         action="{{ route('workflows.action', ['invoices', $record->id, 'invoice_state']) }}"
-                        class="noprint" data-confirm="বিল বাতিল?">@csrf<input type="hidden" name="state"
-                            value="void">
-                        <button class="btn">বাতিল</button>
+                        class="noprint" style="margin:0;">
+                        @csrf
+                        <input type="hidden" name="state" value="finalized">
+
+                        <button type="submit" class="btn">
+                            <i class="fa-solid fa-check"></i> চূড়ান্ত করুন
+                        </button>
                     </form>
+
+                    @if (auth()->user()->role === 'admin')
+                        {{-- বাতিল --}}
+                        <form method="post"
+                            action="{{ route('workflows.action', ['invoices', $record->id, 'invoice_state']) }}"
+                            class="noprint" data-confirm="বিল বাতিল?" style="margin:0;">
+                            @csrf
+                            <input type="hidden" name="state" value="void">
+
+                            <button type="submit" class="btn">
+                                <i class="fa-solid fa-ban"></i> বাতিল
+                            </button>
+                        </form>
+                    @endif
                 @endif
-            @endif
+
+            </div>
+
         </div>
     </section>
 </div>

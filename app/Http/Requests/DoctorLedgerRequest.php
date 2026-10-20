@@ -13,13 +13,19 @@ class DoctorLedgerRequest extends FormRequest
         return Registry::can('doctor_ledgers', true);
     }
 
+    // Picker এর dd-mm-yyyy কে Y-m-d এ রূপান্তর (validation এর আগে)
+    protected function prepareForValidation(): void
+    {
+        $this->merge(['entry_date' => date_to_db($this->input('entry_date'))]);
+    }
+
     public function rules(): array
     {
         return [
             'doctor_id'  => ['required', 'integer', Rule::exists('doctors', 'id')],
             'type'       => ['required', Rule::in(['payable', 'settlement'])],
             'amount'     => ['required', 'numeric', 'gt:0', 'max:999999999'],
-            'entry_date' => ['required', 'date'],
+            'entry_date' => ['required', 'date_format:Y-m-d'],
             'notes'      => ['required', 'string', 'max:255'],
         ];
     }

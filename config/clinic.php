@@ -485,7 +485,7 @@ return [
             ],
         ],
         'expenses' => [
-            'title' => 'আয়-ব্যয়',
+            'title' => 'খরচ',
             'icon' => 'fa-solid fa-money-bill-transfer',
             'table' => 'expenses',
             'read' => [

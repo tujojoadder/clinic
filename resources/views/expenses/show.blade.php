@@ -1,8 +1,8 @@
-@extends('layouts.app', ['title' => 'আয়-ব্যয় · #' . $record->id])
+@extends('layouts.app', ['title' => 'খরচ · #' . $record->id])
 @section('content')
     <section class="panel">
         <div class="panelhead">
-            <h2>আয়-ব্যয় · #{{ $record->id }}</h2>
+            <h2>খরচ · #{{ $record->id }}</h2>
         </div>
         <div class="panelbody">
             @php $methods = ['cash' => 'ক্যাশ', 'bkash' => 'bKash', 'nagad' => 'Nagad', 'bank' => 'ব্যাংক']; @endphp
@@ -11,7 +11,7 @@
                 <div><label>বিবরণ</label><strong>{{ $record->description }}</strong></div>
                 <div><label>পরিমাণ</label><strong>{{ $record->amount }}</strong></div>
                 <div><label>পদ্ধতি</label><strong>{{ $methods[$record->method] ?? $record->method }}</strong></div>
-                <div><label>তারিখ</label><strong>{{ $record->expense_date }}</strong></div>
+                <div><label>তারিখ</label><strong>{{ date_to_view($record->expense_date) }}</strong></div>
             </div>
             <div class="actions noprint">
                 <a class="btn" href="{{ route('expenses.index') }}">তালিকা</a>

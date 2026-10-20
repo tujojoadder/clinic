@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'আয়-ব্যয়'])
+@extends('layouts.app', ['title' => 'খরচ'])
 @section('content')
     <section class="panel">
         <div class="panelhead">
@@ -37,8 +37,10 @@
                     </div>
                     <div>
                         <label for="expense_date">তারিখ *</label>
-                        <input id="expense_date" name="expense_date" type="date"
-                            value="{{ old('expense_date', $record->expense_date ?: now()->format('Y-m-d')) }}" required>
+                        <input id="expense_date" name="expense_date" type="text" class="js-date" autocomplete="off"
+                            placeholder="dd-mm-yyyy"
+                            value="{{ date_to_view(old('expense_date', $record->expense_date ?: now()->format('Y-m-d'))) }}"
+                            required>
                     </div>
                 </div>
                 <div class="actions">

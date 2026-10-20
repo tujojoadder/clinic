@@ -22,9 +22,22 @@ class ExpenseController extends Controller
                 }
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
 
-        return view('expenses.index', ['module' => 'expenses', 'records' => $records]);
+        // ড্রপডাউন ফিল্টার (সব AND হিসেবে কাজ করবে)
+        if ($request->filled('category')) {
+            $query->where('category', (string) $request->category);
+        }
+        if ($request->filled('method')) {
+            $query->where('method', (string) $request->method);
+        }
+
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
+
+        return view('expenses.index', [
+            'module'     => 'expenses',
+            'records'    => $records,
+            'categories' => Expense::query()->distinct()->orderBy('category')->pluck('category'),
+        ]);
     }
 
     public function create()

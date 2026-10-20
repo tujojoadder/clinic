@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InvoiceRequest;
-use App\Models\Invoice;
+use App\Models\{Invoice, Patient};
 use App\Services\BillingService;
 use App\Support\{Audit, Registry};
 use DomainException;
@@ -25,9 +25,24 @@ class InvoiceController extends Controller
                 $query->orWhereHas('patient', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
 
-        return view('invoices.index', ['module' => 'invoices', 'records' => $records]);
+        // ফিল্টার (সব AND হিসেবে কাজ করবে)
+        if ($request->filled('patient_id')) {
+            $query->where('patient_id', (int) $request->patient_id);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', (string) $request->status);
+        }
+
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
+
+        return view('invoices.index', [
+            'module'        => 'invoices',
+            'records'       => $records,
+            // রোগী ফিল্টার ajax দিয়ে আসে, তাই শুধু নির্বাচিত রোগীটাই লোড হয়
+            'filterPatient' => $request->filled('patient_id') ? Patient::find((int) $request->patient_id) : null,
+            'statuses'      => Invoice::query()->distinct()->orderBy('status')->pluck('status'),
+        ]);
     }
 
     public function create()

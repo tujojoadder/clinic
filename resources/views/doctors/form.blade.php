@@ -16,9 +16,9 @@
                         <input id="name" name="name" type="text" value="{{ old('name', $record->name) }}" required>
                     </div>
                     <div>
-                        <label for="specialty_id">বিভাগ *</label>
+                        <label for="specialty_id">স্পেশালিটি *</label>
                         <div class="inputgroup">
-                            <select id="specialty_id" name="specialty_id" required>
+                            <select class="js-select2" id="specialty_id" name="specialty_id" required>
                                 <option value="">নির্বাচন করুন</option>
                                 @foreach ($specialties as $s)
                                     <option value="{{ $s->id }}" @selected((string) old('specialty_id', $record->specialty_id) === (string) $s->id)>{{ $s->name }}
@@ -26,8 +26,8 @@
                                 @endforeach
                             </select>
                             @if (\App\Support\Registry::can('specialties', true))
-                                <button type="button" class="qadd" data-quick-open="quickSpecialty" title="নতুন বিভাগ"><i
-                                        class="fa-solid fa-plus"></i></button>
+                                <button type="button" class="qadd" data-quick-open="quickSpecialty"
+                                    title="নতুন স্পেশালিটি"><i class="fa-solid fa-plus"></i></button>
                             @endif
                         </div>
                     </div>

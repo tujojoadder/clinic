@@ -17,7 +17,7 @@ class SpecialtyController extends Controller
         if ($request->filled('q')) {
             $query->where('name', 'like', '%' . mb_substr((string) $request->q, 0, 150) . '%');
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
 
         return view('specialties.index', ['module' => 'specialties', 'records' => $records]);
     }

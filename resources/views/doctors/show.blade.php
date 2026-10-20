@@ -7,7 +7,7 @@
         <div class="panelbody">
             <div class="detailgrid">
                 <div><label>নাম</label><strong>{{ $record->name }}</strong></div>
-                <div><label>বিভাগ</label><strong>{{ $record->specialty?->name }}</strong></div>
+                <div><label>স্পেশালিটি</label><strong>{{ $record->specialty?->name }}</strong></div>
                 <div><label>মোবাইল</label><strong>{{ $record->phone }}</strong></div>
                 <div><label>ভিজিট ফি</label><strong>{{ $record->fee }}</strong></div>
                 <div><label>ফলোআপ ফি</label><strong>{{ $record->followup_fee }}</strong></div>

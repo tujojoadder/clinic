@@ -14,9 +14,10 @@
                 <div class="formgrid">
                     <div>
                         <label for="doctor_id">ডাক্তার *</label>
-                        <select id="doctor_id" name="doctor_id" required>
+                        <select class="js-select2" id="doctor_id" name="doctor_id" required>
                             @foreach (\App\Support\Registry::options('doctors') as $key => $label)
-                                <option value="{{ $key }}" @selected((string) old('doctor_id', $record->doctor_id) === (string) $key)>{{ $label }}</option>
+                                <option value="{{ $key }}" @selected((string) old('doctor_id', $record->doctor_id) === (string) $key)>{{ $label }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -36,8 +37,10 @@
                     </div>
                     <div>
                         <label for="entry_date">তারিখ *</label>
-                        <input id="entry_date" name="entry_date" type="date"
-                            value="{{ old('entry_date', $record->entry_date ?: now()->format('Y-m-d')) }}" required>
+                        <input id="entry_date" name="entry_date" type="text" class="js-date" autocomplete="off"
+                            placeholder="dd-mm-yyyy"
+                            value="{{ date_to_view(old('entry_date', $record->entry_date ?: now()->format('Y-m-d'))) }}"
+                            required>
                     </div>
                     <div>
                         <label for="notes">বিবরণ *</label>

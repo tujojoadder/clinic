@@ -24,9 +24,22 @@ class DoctorLedgerController extends Controller
                 $query->orWhereHas('doctor', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
 
-        return view('doctor_ledgers.index', ['module' => 'doctor_ledgers', 'records' => $records]);
+        // ড্রপডাউন ফিল্টার (সব AND হিসেবে কাজ করবে)
+        if ($request->filled('doctor_id')) {
+            $query->where('doctor_id', (int) $request->doctor_id);
+        }
+        if (in_array($request->type, ['payable', 'settlement'], true)) {
+            $query->where('type', $request->type);
+        }
+
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
+
+        return view('doctor_ledgers.index', [
+            'module'  => 'doctor_ledgers',
+            'records' => $records,
+            'doctors' => Doctor::orderBy('name')->get(['id', 'name']),
+        ]);
     }
 
     public function create()

@@ -25,9 +25,22 @@ class DoctorController extends Controller
                 $query->orWhereHas('days', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
 
-        return view('doctors.index', ['module' => 'doctors', 'records' => $records]);
+        // ড্রপডাউন ফিল্টার (সব AND হিসেবে কাজ করবে)
+        if ($request->filled('specialty_id')) {
+            $query->where('specialty_id', (int) $request->specialty_id);
+        }
+        if (in_array($request->active, ['1', '0'], true)) {
+            $query->where('active', (int) $request->active);
+        }
+
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
+
+        return view('doctors.index', [
+            'module'      => 'doctors',
+            'records'     => $records,
+            'specialties' => Specialty::orderBy('name')->get(['id', 'name']),
+        ]);
     }
 
     public function create()
