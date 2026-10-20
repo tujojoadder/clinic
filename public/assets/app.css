@@ -1682,3 +1682,39 @@ button[data-print]:focus-visible {
         display: none !important;
     }
 }
+
+/*  */
+/* বেডের স্ট্যাটাস ব্যাজ */
+.badge[class*="b-"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+}
+.badge[class*="b-"]::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+.badge.b-occupied {
+    background: #fdecec;
+    color: #c0392b;
+    border: 1px solid #f3c4c4;
+}
+.badge.b-available {
+    background: #e6f6ec;
+    color: #1e8449;
+    border: 1px solid #bfe6cd;
+}
+.badge.b-cleaning {
+    background: #fff4dd;
+    color: #b9770e;
+    border: 1px solid #f5dca3;
+}
+.badge.b-inactive {
+    background: #eef1f1;
+    color: #6b7b7d;
+    border: 1px solid #d9e0e0;
+}

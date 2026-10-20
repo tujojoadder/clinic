@@ -2,10 +2,12 @@
     $type = $field[1];
     $value = $type === 'password' ? '' : old($name, $value ?? null);
     if ($type === 'datetime-local') {
-        $value = $value ? \Carbon\Carbon::parse($value)->format('Y-m-d\TH:i') : now()->format('Y-m-d\TH:i');
+        // ডাটাবেস মান → 15-10-2026 02:30 PM (ফাঁকা হলে এখনকার সময়)
+        $value = $value ? datetime_to_view($value) : now()->format('d-m-Y h:i A');
     }
-    if ($type === 'date' && !$value && $name !== 'birth_date') {
-        $value = now()->format('Y-m-d');
+    if ($type === 'date') {
+        // ডাটাবেস মান → 15-10-2026 (ফাঁকা হলে আজ, শুধু birth_date ছাড়া)
+        $value = $value ? date_to_view($value) : ($name !== 'birth_date' ? now()->format('d-m-Y') : '');
     }
     if ($type === 'time' && $value) {
         $value = substr($value, 0, 5);
@@ -28,6 +30,9 @@
         </select>
     @elseif($type === 'textarea')
         <textarea id="{{ $name }}" name="{{ $name }}" @required($field[2])>{{ $value }}</textarea>
+    @elseif(in_array($type, ['date', 'datetime-local']))
+        <input id="{{ $name }}" name="{{ $name }}" type="text"
+            class="{{ $type === 'date' ? 'js-date' : 'js-datetime' }}" value="{{ $value }}" @required($field[2])>
     @else
         <input id="{{ $name }}" name="{{ $name }}" type="{{ $type }}"
             value="{{ $value }}" @required($field[2]) @if ($type === 'number') min="0" step="0.01" @endif>

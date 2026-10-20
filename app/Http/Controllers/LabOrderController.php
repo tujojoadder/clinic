@@ -24,9 +24,22 @@ class LabOrderController extends Controller
                     ->orWhereHas('test', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
+        // ড্রপডাউন ফিল্টার (সব AND হিসেবে কাজ করবে)
+        if ($request->filled('test_id')) {
+            $query->where('test_id', (int) $request->test_id);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', (string) $request->status);
+        }
 
-        return view('lab_orders.index', ['module' => 'lab_orders', 'records' => $records]);
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
+
+        return view('lab_orders.index', [
+            'module'   => 'lab_orders',
+            'records'  => $records,
+            'tests'    => DiagnosticTest::orderBy('name')->get(['id', 'name']),
+            'statuses' => LabOrder::query()->distinct()->orderBy('status')->pluck('status'),
+        ]);
     }
 
     public function create()

@@ -16,6 +16,7 @@ class NursingRecordController extends Controller
     {
         Registry::authorize('nursing_records');
         $query = NursingRecord::with('admission.patient');
+
         if ($request->filled('q')) {
             $search = mb_substr((string) $request->q, 0, 150);
             $query->where(function ($query) use ($search) {
@@ -25,7 +26,8 @@ class NursingRecordController extends Controller
                 $query->orWhereHas('admission.patient', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
+
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
 
         return view('nursing_records.index', ['module' => 'nursing_records', 'records' => $records]);
     }

@@ -24,7 +24,7 @@
                     @else
                         <div>
                             <label for="patient_id">রোগী *</label>
-                            <select id="patient_id" name="patient_id" required>
+                            <select class="js-select2" id="patient_id" name="patient_id" required>
                                 @foreach (\App\Support\Registry::options('patients') as $key => $label)
                                     <option value="{{ $key }}" @selected((string) old('patient_id') === (string) $key)>{{ $label }}
                                     </option>
@@ -33,13 +33,13 @@
                         </div>
                         <div>
                             <label for="admitted_at">ভর্তির তারিখ ও সময় *</label>
-                            <input id="admitted_at" name="admitted_at" type="datetime-local"
-                                value="{{ old('admitted_at', now()->format('Y-m-d\TH:i')) }}" required>
+                            <input id="admitted_at" name="admitted_at" type="text" class="js-datetime"
+                                value="{{ datetime_to_view(old('admitted_at', now())) }}" required>
                         </div>
                     @endif
                     <div>
                         <label for="doctor_id">ডাক্তার *</label>
-                        <select id="doctor_id" name="doctor_id" required>
+                        <select class="js-select2" id="doctor_id" name="doctor_id" required>
                             @foreach (\App\Support\Registry::options('doctors') as $key => $label)
                                 <option value="{{ $key }}" @selected((string) old('doctor_id', $record->doctor_id) === (string) $key)>{{ $label }}
                                 </option>
@@ -53,7 +53,7 @@
                     @unless ($record->exists)
                         <div>
                             <label for="bed_id">বেড *</label>
-                            <select id="bed_id" name="bed_id" required>
+                            <select class="js-select2" id="bed_id" name="bed_id" required>
                                 @foreach ($beds as $key => $label)
                                     <option value="{{ $key }}" @selected((string) old('bed_id') === (string) $key)>{{ $label }}
                                     </option>

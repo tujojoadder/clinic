@@ -12,7 +12,18 @@ class EntityRequest extends FormRequest
     {
         return Registry::can((string) $this->route('module'), true);
     }
-
+    // Picker এর dd-mm-yyyy কে ডাটাবেস ফরম্যাটে রূপান্তর (validation এর আগে)
+    protected function prepareForValidation(): void
+    {
+        $definition = Registry::definition((string) $this->route('module'));
+        $merge = [];
+        foreach ($definition['fields'] as $key => $field) {
+            if (!$this->has($key)) continue;
+            if ($field[1] === 'date') $merge[$key] = date_to_db($this->input($key));
+            elseif ($field[1] === 'datetime-local') $merge[$key] = datetime_to_db($this->input($key));
+        }
+        $this->merge($merge);
+    }
     public function rules(): array
     {
         $module = (string) $this->route('module');
@@ -22,14 +33,30 @@ class EntityRequest extends FormRequest
         foreach ($definition['fields'] as $key => $field) {
             $rules[$key] = [$field[2] ? 'required' : 'nullable'];
             switch ($field[1]) {
-                case 'fk': $rules[$key] = array_merge($rules[$key], ['integer', Rule::exists($field[3], 'id')]); break;
-                case 'select': $rules[$key][] = Rule::in(array_keys($field[3])); break;
-                case 'number': $rules[$key] = array_merge($rules[$key], ['numeric', 'min:0']); break;
-                case 'date': case 'datetime-local': $rules[$key][] = 'date'; break;
-                case 'time': $rules[$key][] = 'date_format:H:i'; break;
-                case 'email': $rules[$key] = array_merge($rules[$key], ['email', 'max:190']); break;
-                case 'password': $rules[$key] = [$id ? 'nullable' : 'required', 'string', 'min:12', 'max:128']; break;
-                default: $rules[$key] = array_merge($rules[$key], ['string', 'max:'.($field[1] === 'textarea' ? 10000 : 150)]);
+                case 'fk':
+                    $rules[$key] = array_merge($rules[$key], ['integer', Rule::exists($field[3], 'id')]);
+                    break;
+                case 'select':
+                    $rules[$key][] = Rule::in(array_keys($field[3]));
+                    break;
+                case 'number':
+                    $rules[$key] = array_merge($rules[$key], ['numeric', 'min:0']);
+                    break;
+                case 'date':
+                case 'datetime-local':
+                    $rules[$key][] = 'date';
+                    break;
+                case 'time':
+                    $rules[$key][] = 'date_format:H:i';
+                    break;
+                case 'email':
+                    $rules[$key] = array_merge($rules[$key], ['email', 'max:190']);
+                    break;
+                case 'password':
+                    $rules[$key] = [$id ? 'nullable' : 'required', 'string', 'min:12', 'max:128'];
+                    break;
+                default:
+                    $rules[$key] = array_merge($rules[$key], ['string', 'max:' . ($field[1] === 'textarea' ? 10000 : 150)]);
             }
         }
         if ($module === 'patients') {

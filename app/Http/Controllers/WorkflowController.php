@@ -17,11 +17,21 @@ class WorkflowController extends Controller
         $admissions = app(AdmissionService::class);
         $lab = app(LabService::class);
         $expected = [
-            'visit_complete' => 'visits', 'transfer' => 'admissions', 'cancel_admission' => 'admissions',
-            'discharge' => 'admissions', 'sync_rent' => 'invoices', 'payment' => 'invoices',
-            'void_payment' => 'invoices', 'service_save' => 'invoices', 'service_delete' => 'invoices',
-            'invoice_state' => 'invoices', 'lab_status' => 'lab_orders', 'lab_results' => 'lab_orders',
-            'approve_lab' => 'lab_orders', 'reopen_lab' => 'lab_orders', 'cancel_lab' => 'lab_orders',
+            'visit_complete' => 'visits',
+            'transfer' => 'admissions',
+            'cancel_admission' => 'admissions',
+            'discharge' => 'admissions',
+            'sync_rent' => 'invoices',
+            'payment' => 'invoices',
+            'void_payment' => 'invoices',
+            'service_save' => 'invoices',
+            'service_delete' => 'invoices',
+            'invoice_state' => 'invoices',
+            'lab_status' => 'lab_orders',
+            'lab_results' => 'lab_orders',
+            'approve_lab' => 'lab_orders',
+            'reopen_lab' => 'lab_orders',
+            'cancel_lab' => 'lab_orders',
         ];
         abort_unless(($expected[$action] ?? null) === $module, 404);
         Registry::authorize($action === 'discharge' ? 'discharge' : $module, true);
@@ -35,14 +45,20 @@ class WorkflowController extends Controller
                 });
                 break;
             case 'transfer':
-                $data = $request->validate(['bed_id' => 'required|integer|exists:beds,id', 'at' => 'required|date|before_or_equal:now']);
+                $request->merge(['at' => datetime_to_db($request->input('at'))]);
+                $data = $request->validate(['bed_id' => 'required|integer|exists:beds,id', 'at' => 'required|date_format:Y-m-d H:i:s|before_or_equal:now']);
                 $admissions->transfer(Admission::findOrFail($record), (int) $data['bed_id'], $data['at']);
                 break;
-            case 'cancel_admission': $admissions->cancel(Admission::findOrFail($record)); break;
+            case 'cancel_admission':
+                $admissions->cancel(Admission::findOrFail($record));
+                break;
             case 'discharge':
+                $request->merge(['discharged_at' => datetime_to_db($request->input('discharged_at'))]);
                 $data = $request->validate([
-                    'discharged_at' => 'required|date|before_or_equal:now', 'treatment_summary' => 'required|string|max:10000',
-                    'followup_notes' => 'nullable|string|max:10000', 'discharge_type' => ['required', Rule::in(['regular', 'transfer', 'own_risk'])],
+                    'discharged_at' => 'required|date_format:Y-m-d H:i:s|before_or_equal:now',
+                    'treatment_summary' => 'required|string|max:10000',
+                    'followup_notes' => 'nullable|string|max:10000',
+                    'discharge_type' => ['required', Rule::in(['regular', 'transfer', 'own_risk'])],
                     'allow_due' => 'nullable|boolean',
                 ]);
                 $admissions->discharge(Admission::findOrFail($record), $data);
@@ -55,9 +71,11 @@ class WorkflowController extends Controller
                 break;
             case 'payment':
                 $data = $request->validate([
-                    'amount' => 'required|numeric|gt:0|max:999999999', 'type' => ['required', Rule::in(['receipt', 'refund'])],
+                    'amount' => 'required|numeric|gt:0|max:999999999',
+                    'type' => ['required', Rule::in(['receipt', 'refund'])],
                     'method' => ['required', Rule::in(['cash', 'bkash', 'nagad', 'bank'])],
-                    'transaction_ref' => 'nullable|string|max:150', 'reason' => 'nullable|string|max:255',
+                    'transaction_ref' => 'nullable|string|max:150',
+                    'reason' => 'nullable|string|max:255',
                 ]);
                 $billing->payment(Invoice::findOrFail($record), $data);
                 break;
@@ -99,7 +117,9 @@ class WorkflowController extends Controller
                 $data = $request->validate(['reason' => 'required|string|max:255']);
                 $lab->reopen(LabOrder::findOrFail($record), $data['reason']);
                 break;
-            case 'cancel_lab': $lab->cancel(LabOrder::findOrFail($record)); break;
+            case 'cancel_lab':
+                $lab->cancel(LabOrder::findOrFail($record));
+                break;
         }
         return redirect()->route('entities.show', [$module, $record])->with('success', 'কাজটি সম্পন্ন হয়েছে।');
     }

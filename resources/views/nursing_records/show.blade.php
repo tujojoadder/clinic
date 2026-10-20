@@ -8,7 +8,7 @@
             <div class="detailgrid">
                 <div><label>ভর্তি নম্বর</label><strong>ADM-{{ $record->admission_id }} ·
                         {{ $record->admission?->patient?->name }}</strong></div>
-                <div><label>পর্যবেক্ষণের সময়</label><strong>{{ $record->recorded_at }}</strong></div>
+                <div><label>পর্যবেক্ষণের সময়</label><strong>{{ datetime_to_view($record->recorded_at) }}</strong></div>
                 <div><label>রক্তচাপ (mmHg)</label><strong>{{ $record->blood_pressure }}</strong></div>
                 <div><label>তাপমাত্রা (°F)</label><strong>{{ $record->temperature }}</strong></div>
                 <div><label>পালস</label><strong>{{ $record->pulse }}</strong></div>

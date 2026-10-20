@@ -23,18 +23,28 @@ if (!function_exists('datetime_to_db')) {
 }
 
 if (!function_exists('date_to_view')) {
-    // 2026-10-15 → 15-10-2026 (blade এর জন্য)
+    // 2026-10-15 → 15-10-2026 (blade এর জন্য; পার্স না হলে যেমন আছে তেমনই ফেরত)
     function date_to_view($value)
     {
-        return $value ? Carbon::parse($value)->format('d-m-Y') : '';
+        if (!$value) return '';
+        try {
+            return Carbon::parse($value)->format('d-m-Y');
+        } catch (\Throwable $e) {
+            return (string) $value;
+        }
     }
 }
 
 if (!function_exists('datetime_to_view')) {
-    // 2026-10-15 14:30:00 → 15-10-2026 02:30 PM
+    // 2026-10-15 14:30:00 → 15-10-2026 02:30 PM (পার্স না হলে যেমন আছে তেমনই ফেরত)
     function datetime_to_view($value)
     {
-        return $value ? Carbon::parse($value)->format('d-m-Y h:i A') : '';
+        if (!$value) return '';
+        try {
+            return Carbon::parse($value)->format('d-m-Y h:i A');
+        } catch (\Throwable $e) {
+            return (string) $value;
+        }
     }
 }
 

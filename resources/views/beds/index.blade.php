@@ -5,12 +5,23 @@
     @endif
 @endsection
 @section('content')
+    @php
+        $stateLabels = [
+            'occupied' => 'দখল',
+            'available' => 'খালি',
+            'cleaning' => 'পরিষ্কার চলছে',
+            'inactive' => 'বন্ধ',
+        ];
+    @endphp
     <div class="beds">
         @foreach ($records as $bed)
-            @php $stay = $bed->stays()->whereNull('ended_at')->with('admission.patient')->first(); @endphp
+            @php
+                $stay = $bed->stays()->whereNull('ended_at')->with('admission.patient')->first();
+                $stateKey = $stay ? 'occupied' : $bed->state;
+            @endphp
             <article class="bed {{ $stay ? 'occupied' : ($bed->state === 'cleaning' ? 'clean' : '') }}">
                 <div class="bedicon">▤</div>
-                <span class="badge">{{ $stay ? 'দখল' : $bed->state }}</span>
+                <span class="badge b-{{ $stateKey }}">{{ $stateLabels[$stateKey] ?? $stateKey }}</span>
                 <h2>{{ $bed->name }}</h2>
                 <p>{{ $bed->ward }}</p>
                 <p>{{ $stay?->admission?->patient?->name }}</p>

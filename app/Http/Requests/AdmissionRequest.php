@@ -13,6 +13,14 @@ class AdmissionRequest extends FormRequest
         return Registry::can('admissions', true);
     }
 
+    // Picker এর dd-mm-yyyy hh:mm AM/PM কে Y-m-d H:i:s এ রূপান্তর (validation এর আগে)
+    protected function prepareForValidation(): void
+    {
+        if (!$this->route('admission') && $this->has('admitted_at')) {
+            $this->merge(['admitted_at' => datetime_to_db($this->input('admitted_at'))]);
+        }
+    }
+
     public function rules(): array
     {
         if ($this->route('admission')) {
@@ -25,7 +33,7 @@ class AdmissionRequest extends FormRequest
         return [
             'patient_id'  => ['required', 'integer', Rule::exists('patients', 'id')],
             'doctor_id'   => ['required', 'integer', Rule::exists('doctors', 'id')],
-            'admitted_at' => ['required', 'date', 'before_or_equal:now'],
+            'admitted_at' => ['required', 'date_format:Y-m-d H:i:s', 'before_or_equal:now'],
             'reason'      => ['required', 'string', 'max:10000'],
             'bed_id'      => ['required', 'integer', Rule::exists('beds', 'id')],
             'advance'     => ['nullable', 'numeric', 'min:0'],
@@ -43,6 +51,13 @@ class AdmissionRequest extends FormRequest
             'bed_id'      => 'বেড',
             'advance'     => 'অগ্রিম',
             'method'      => 'পদ্ধতি',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'admitted_at.date_format' => ':attribute সঠিক ফরম্যাটে দিন (যেমন: 15-10-2026 02:30 PM)।',
         ];
     }
 }

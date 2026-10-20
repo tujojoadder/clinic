@@ -22,9 +22,8 @@
                     </div>
                     <div>
                         <label for="recorded_at">পর্যবেক্ষণের সময় *</label>
-                        <input id="recorded_at" name="recorded_at" type="datetime-local"
-                            value="{{ old('recorded_at', $record->recorded_at ? \Carbon\Carbon::parse($record->recorded_at)->format('Y-m-d\TH:i') : now()->format('Y-m-d\TH:i')) }}"
-                            required>
+                        <input id="recorded_at" name="recorded_at" type="text" class="js-datetime"
+                            value="{{ datetime_to_view(old('recorded_at', $record->recorded_at ?: now())) }}" required>
                     </div>
                     <div>
                         <label for="blood_pressure">রক্তচাপ (mmHg)</label>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdmissionRequest;
-use App\Models\{Admission, Bed};
+use App\Models\{Admission, Bed, Doctor, Specialty};
 use App\Services\AdmissionService;
 use App\Support\{Audit, Registry};
 use Carbon\Carbon;
@@ -16,7 +16,8 @@ class AdmissionController extends Controller
     public function index(Request $request)
     {
         Registry::authorize('admissions');
-        $query = Admission::with('patient', 'doctor');
+        $query = Admission::with('patient', 'doctor.specialty');
+
         if ($request->filled('q')) {
             $search = mb_substr((string) $request->q, 0, 150);
             $query->where(function ($query) use ($search) {
@@ -24,12 +25,31 @@ class AdmissionController extends Controller
                     $query->orWhere($column, 'like', '%' . $search . '%');
                 }
                 $query->orWhereHas('patient', fn($q) => $q->where('name', 'like', '%' . $search . '%'))
-                    ->orWhereHas('doctor', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
+                    ->orWhereHas('doctor', fn($q) => $q->where('name', 'like', '%' . $search . '%'))
+                    ->orWhereHas('doctor.specialty', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
 
-        return view('admissions.index', ['module' => 'admissions', 'records' => $records]);
+        // ড্রপডাউন ফিল্টার (সব AND হিসেবে কাজ করবে)
+        if ($request->filled('specialty_id')) {
+            $query->whereHas('doctor', fn($q) => $q->where('specialty_id', (int) $request->specialty_id));
+        }
+        if ($request->filled('doctor_id')) {
+            $query->where('doctor_id', (int) $request->doctor_id);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', (string) $request->status);
+        }
+
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
+
+        return view('admissions.index', [
+            'module'      => 'admissions',
+            'records'     => $records,
+            'specialties' => Specialty::orderBy('name')->get(['id', 'name']),
+            'doctors'     => Doctor::orderBy('name')->get(['id', 'name']),
+            'statuses'    => Admission::query()->distinct()->orderBy('status')->pluck('status'),
+        ]);
     }
 
     public function create()

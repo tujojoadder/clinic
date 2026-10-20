@@ -9,16 +9,17 @@
                 @csrf
                 <div class="formgrid">
                     <div>
-                        <label for="patient_id">রোগী *</label>
+                        <label class="js-select2" for="patient_id">রোগী *</label>
                         <select id="patient_id" name="patient_id" required>
                             @foreach (\App\Support\Registry::options('patients') as $key => $label)
-                                <option value="{{ $key }}" @selected((string) old('patient_id') === (string) $key)>{{ $label }}</option>
+                                <option value="{{ $key }}" @selected((string) old('patient_id') === (string) $key)>{{ $label }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                     <div>
                         <label for="admission_id">ভর্তি নম্বর (ঐচ্ছিক)</label>
-                        <select id="admission_id" name="admission_id">
+                        <select class="js-select2" id="admission_id" name="admission_id">
                             <option value="">—</option>
                             @foreach ($admissions as $key => $label)
                                 <option value="{{ $key }}" @selected((string) old('admission_id') === (string) $key)>{{ $label }}
@@ -28,7 +29,7 @@
                     </div>
                     <div>
                         <label for="test_id">টেস্ট *</label>
-                        <select id="test_id" name="test_id" required>
+                        <select class="js-select2" id="test_id" name="test_id" required>
                             @foreach ($tests as $key => $label)
                                 <option value="{{ $key }}" @selected((string) old('test_id') === (string) $key)>{{ $label }}
                                 </option>

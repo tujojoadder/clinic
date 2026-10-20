@@ -14,17 +14,31 @@ class TestController extends Controller
     {
         Registry::authorize('tests');
         $query = DiagnosticTest::query();
+
         if ($request->filled('q')) {
             $search = mb_substr((string) $request->q, 0, 150);
             $query->where(function ($query) use ($search) {
-                foreach (['name', 'sample_type', 'price', 'turnaround_hours', 'active'] as $column) {
+                foreach (['name', 'sample_type', 'price', 'turnaround_hours'] as $column) {
                     $query->orWhere($column, 'like', '%' . $search . '%');
                 }
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
 
-        return view('tests.index', ['module' => 'tests', 'records' => $records]);
+        // ড্রপডাউন ফিল্টার (সব AND হিসেবে কাজ করবে)
+        if ($request->filled('sample_type')) {
+            $query->where('sample_type', (string) $request->sample_type);
+        }
+        if (in_array($request->active, ['1', '0'], true)) {
+            $query->where('active', (int) $request->active);
+        }
+
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
+
+        return view('tests.index', [
+            'module'      => 'tests',
+            'records'     => $records,
+            'sampleTypes' => DiagnosticTest::query()->distinct()->orderBy('sample_type')->pluck('sample_type'),
+        ]);
     }
 
     public function create()

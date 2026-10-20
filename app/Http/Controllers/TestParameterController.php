@@ -23,9 +23,18 @@ class TestParameterController extends Controller
                 $query->orWhereHas('test', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
-        $records = $query->latest('id')->paginate(25)->withQueryString();
+        // ড্রপডাউন ফিল্টার
+        if ($request->filled('test_id')) {
+            $query->where('test_id', (int) $request->test_id);
+        }
 
-        return view('test_parameters.index', ['module' => 'test_parameters', 'records' => $records]);
+        $records = $query->latest('id')->paginate(per_page())->withQueryString();
+
+        return view('test_parameters.index', [
+            'module'  => 'test_parameters',
+            'records' => $records,
+            'tests'   => DiagnosticTest::orderBy('name')->get(['id', 'name']),
+        ]);
     }
 
     public function create()

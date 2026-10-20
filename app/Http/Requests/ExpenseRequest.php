@@ -12,6 +12,10 @@ class ExpenseRequest extends FormRequest
     {
         return Registry::can('expenses', true);
     }
+    protected function prepareForValidation(): void
+    {
+        $this->merge(['expense_date' => date_to_db($this->input('expense_date'))]);
+    }
 
     public function rules(): array
     {

@@ -14,9 +14,10 @@
                 <div class="formgrid">
                     <div>
                         <label for="test_id">টেস্ট *</label>
-                        <select id="test_id" name="test_id" required>
+                        <select class="js-select2" id="test_id" name="test_id" required>
                             @foreach ($tests as $key => $label)
-                                <option value="{{ $key }}" @selected((string) old('test_id', $record->test_id) === (string) $key)>{{ $label }}</option>
+                                <option value="{{ $key }}" @selected((string) old('test_id', $record->test_id) === (string) $key)>{{ $label }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
