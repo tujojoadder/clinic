@@ -68,6 +68,7 @@
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.10.8/sweetalert2.all.min.js"></script>
     <script src="{{ asset('assets/js/select2-ajax.js') }}?v=2"></script>
     <script src="{{ asset('assets/app.js') }}"></script>
     <script src="{{ asset('assets/js/pagination.js') }}"></script>
@@ -140,6 +141,94 @@
         $(function() {
             window.initSelect2(document);
         });
+    </script>
+
+    {{-- SweetAlert reusable helper — যেকোনো পেজের JS থেকে ডাকা যাবে --}}
+    <script>
+        /*
+         *   confirmDelete().then(yes => { if (yes) ... })
+         *   confirmDelete('এই অ্যাকাউন্ট মুছবেন?')
+         *   confirmDefault().then(yes => { if (yes) ... })
+         *   askConfirm({title, text, icon, confirmText, confirmColor, focusCancel}) → নিজের মতো
+         *   toastOk('সংরক্ষণ হয়েছে')   → কোণায় ছোট সফল বার্তা
+         *   alertError('বার্তা')
+         * Swal লোড না হলে নিজে থেকে সাধারণ confirm()/alert() এ ফিরে যায়।
+         * animation বন্ধ রাখা হয়েছে, তাই সঙ্গে সঙ্গে খোলে ও বন্ধ হয়।
+         */
+        if (window.Swal) {
+            window.SwalFast = Swal.mixin({
+                animation: false,
+                heightAuto: false,
+                scrollbarPadding: false,
+                reverseButtons: true,
+                cancelButtonColor: '#748587'
+            });
+        }
+
+        window.askConfirm = function(opts) {
+            opts = opts || {};
+            if (!window.SwalFast) {
+                return Promise.resolve(window.confirm(opts.text || opts.title || 'নিশ্চিত?'));
+            }
+            return SwalFast.fire({
+                title: opts.title || 'নিশ্চিত?',
+                text: opts.text || '',
+                icon: opts.icon || 'question',
+                showCancelButton: true,
+                confirmButtonText: opts.confirmText || 'হ্যাঁ',
+                cancelButtonText: opts.cancelText || 'বাতিল',
+                confirmButtonColor: opts.confirmColor || '#087f73',
+                focusCancel: !!opts.focusCancel
+            }).then(function(r) {
+                return r.isConfirmed;
+            });
+        };
+
+        window.confirmDelete = function(text) {
+            return window.askConfirm({
+                title: 'মুছে ফেলবেন?',
+                text: text || 'মুছলে এই রেকর্ড আর ফেরত পাওয়া যাবে না।',
+                icon: 'warning',
+                confirmText: 'হ্যাঁ, মুছুন',
+                confirmColor: '#d33',
+                focusCancel: true
+            });
+        };
+
+        window.confirmDefault = function(text) {
+            return window.askConfirm({
+                title: 'ডিফল্ট করবেন?',
+                text: text || 'এটিকে ডিফল্ট হিসেবে সেট করা হবে।',
+                icon: 'question',
+                confirmText: 'হ্যাঁ, ডিফল্ট করুন'
+            });
+        };
+
+        window.toastOk = function(msg) {
+            if (!window.SwalFast) return;
+            SwalFast.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: msg,
+                showConfirmButton: false,
+                timer: 1800
+            });
+        };
+
+        window.alertError = function(msg) {
+            if (!window.SwalFast) {
+                window.alert(msg);
+                return;
+            }
+            SwalFast.fire({
+                icon: 'error',
+                title: 'সমস্যা হয়েছে',
+                text: msg,
+                confirmButtonText: 'ঠিক আছে',
+                confirmButtonColor: '#087f73'
+            });
+        };
     </script>
 
     @stack('scripts')

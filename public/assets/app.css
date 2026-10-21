@@ -398,6 +398,7 @@ label {
     font-weight: 700;
     color: #475569;
     margin-bottom: 8px;
+    margin-top: 3px;
 }
 .formgrid {
     display: grid;

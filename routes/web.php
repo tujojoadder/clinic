@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AuthController, DashboardController, EntityController, WorkflowController, ReportController, SettingsController, PatientController, DoctorController, ReferenceController, BedController, VisitController, AdmissionController, NursingRecordController, LabOrderController, InvoiceController, ExpenseController, DoctorLedgerController, SpecialtyController, TestController, TestParameterController, UserController};
+use App\Http\Controllers\{AccountController, AuthController, DashboardController, EntityController, WorkflowController, ReportController, SettingsController, PatientController, DoctorController, ReferenceController, BedController, VisitController, AdmissionController, NursingRecordController, LabOrderController, InvoiceController, ExpenseController, DoctorLedgerController, SpecialtyController, TestController, TestParameterController, UserController};
 use App\Http\Middleware\{ActiveSession, SecurityHeaders};
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +25,7 @@ Route::get('/run-migrate', function () {
 //         '--force' => true,
 //     ]);
 
-//     return Artisan::output();  
+//     return Artisan::output();
 // });
 
 Route::middleware(SecurityHeaders::class)->group(function () {
@@ -64,6 +64,7 @@ Route::middleware(SecurityHeaders::class)->group(function () {
         Route::resource('test_parameters', TestParameterController::class)->whereNumber('test_parameter');
         Route::resource('users', UserController::class)->whereNumber('user');
         Route::resource('specialties', SpecialtyController::class)->whereNumber('specialty');
+        Route::resource('accounts', AccountController::class)->only(['index', 'store', 'update', 'destroy'])->whereNumber('account');
 
 
         // ── Generic fallback (remove after all modules are migrated) ──

@@ -574,6 +574,34 @@ return [
             'model' => 'App\\Models\\DoctorLedger',
         ],
 
+        'accounts' => [
+            'title' => 'অ্যাকাউন্ট',
+            'icon' => 'fa-solid fa-building-columns',
+            'table' => 'accounts',
+            'read' => [
+                'cashier',
+            ],
+            'write' => [],
+            'fields' => [
+                'name' => [
+                    'অ্যাকাউন্টের নাম',
+                    'text',
+                    true,
+                ],
+                'holder_name' => [
+                    'হোল্ডারের নাম',
+                    'text',
+                    true,
+                ],
+                'account_number' => [
+                    'অ্যাকাউন্ট নম্বর',
+                    'text',
+                    true,
+                ],
+            ],
+            'model' => 'App\\Models\\Account',
+        ],
+
         'reports' => [
             'title' => 'রিপোর্ট',
             'icon' => 'fa-solid fa-chart-line',
@@ -786,7 +814,7 @@ return [
         [
             'title' => 'বিলিং ও আয়-ব্যয়',
             'icon'  => 'fa-solid fa-wallet',
-            'items' => ['invoices', 'expenses'],
+            'items' => ['invoices', 'expenses', 'accounts'],
         ],
         [
             'title' => 'রিপোর্ট',
