@@ -12,11 +12,15 @@ class Expense extends Model
         'category',
         'description',
         'amount',
-        'method',
+        'account_id',
         'expense_date',
         'created_at',
     ];
     protected $casts = [
         'amount' => 'decimal:2',
     ];
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'account_id');
+    }
 }

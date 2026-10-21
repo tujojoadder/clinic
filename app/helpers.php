@@ -79,3 +79,9 @@ if (!function_exists('per_page')) {
         return in_array($size, [20, 50, 100], true) ? $size : $default;
     }
 }
+if (!function_exists('account_options')) {
+    function account_options()
+    {
+        return \App\Models\Account::orderByDesc('is_default')->orderBy('name')->get(['id', 'name', 'account_number', 'is_default']);
+    }
+}

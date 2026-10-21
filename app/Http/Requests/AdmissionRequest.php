@@ -37,7 +37,7 @@ class AdmissionRequest extends FormRequest
             'reason'      => ['required', 'string', 'max:10000'],
             'bed_id'      => ['required', 'integer', Rule::exists('beds', 'id')],
             'advance'     => ['nullable', 'numeric', 'min:0'],
-            'method'      => ['required', Rule::in(['cash', 'bkash', 'nagad', 'bank'])],
+            'account_id' => ['required', 'integer', Rule::exists('accounts', 'id')],
         ];
     }
 
@@ -50,7 +50,7 @@ class AdmissionRequest extends FormRequest
             'reason'      => 'ভর্তির কারণ',
             'bed_id'      => 'বেড',
             'advance'     => 'অগ্রিম',
-            'method'      => 'পদ্ধতি',
+            'account_id'   => 'অ্যাকাউন্ট',
         ];
     }
 

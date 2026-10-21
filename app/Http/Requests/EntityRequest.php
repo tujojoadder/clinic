@@ -76,7 +76,7 @@ class EntityRequest extends FormRequest
             if (!$id) {
                 $rules['bed_id'] = ['required', 'integer', 'exists:beds,id'];
                 $rules['advance'] = ['nullable', 'numeric', 'min:0'];
-                $rules['method'] = ['required', Rule::in(['cash', 'bkash', 'nagad', 'bank'])];
+                $rules['account_id'] = ['required', 'integer', 'exists:accounts,id'];
             }
         }
         return $rules;

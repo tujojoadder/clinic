@@ -26,7 +26,7 @@ class AdmissionService
             $invoice = Invoice::create(['patient_id' => $admission->patient_id, 'admission_id' => $admission->id]);
             $this->assign($admission, (int) $data['bed_id'], $admission->admitted_at);
             $this->syncRent($admission);
-            if (!empty($data['advance'])) app(BillingService::class)->payment($invoice, ['amount' => $data['advance'], 'method' => $data['method'], 'type' => 'receipt', 'reason' => 'Admission advance']);
+            if (!empty($data['advance'])) app(BillingService::class)->payment($invoice, ['amount' => $data['advance'], 'account_id' => $data['account_id'], 'type' => 'receipt', 'reason' => 'Admission advance']);
             Audit::record('create', 'admissions', $admission->id);
             return $admission;
         });
@@ -46,8 +46,11 @@ class AdmissionService
         foreach ($admission->stays()->with('bed')->get() as $stay) {
             $days = self::days($stay->started_at, $stay->ended_at ?? $at ?? now()->toDateTimeString());
             InvoiceItem::updateOrCreate(['bed_stay_id' => $stay->id], [
-                'invoice_id' => $invoice->id, 'description' => $stay->bed->name.' · প্রতি ২৪ ঘণ্টা',
-                'quantity' => $days, 'unit_price' => $stay->daily_rate, 'kind' => 'bed',
+                'invoice_id' => $invoice->id,
+                'description' => $stay->bed->name . ' · প্রতি ২৪ ঘণ্টা',
+                'quantity' => $days,
+                'unit_price' => $stay->daily_rate,
+                'kind' => 'bed',
             ]);
         }
     }

@@ -70,7 +70,7 @@ class InvoiceController extends Controller
     public function show(Invoice $invoice)
     {
         Registry::authorize('invoices');
-        $invoice->load('patient', 'items', 'payments');
+        $invoice->load('patient', 'items', 'payments.account');
 
         return view('invoices.show', ['module' => 'invoices', 'record' => $invoice]);
     }

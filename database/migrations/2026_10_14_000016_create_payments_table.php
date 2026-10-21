@@ -15,12 +15,8 @@ return new class extends Migration {
                 'receipt',
                 'refund',
             ])->default('receipt');
-            $table->enum('method', [
-                'cash',
-                'bkash',
-                'nagad',
-                'bank',
-            ]);
+            $table->unsignedBigInteger('account_id')->nullable();
+
             $table->string('transaction_ref', 150)->nullable();
             $table->string('reason', 255)->nullable();
             $table->dateTime('paid_at');

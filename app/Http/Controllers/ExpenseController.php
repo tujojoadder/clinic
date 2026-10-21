@@ -13,13 +13,14 @@ class ExpenseController extends Controller
     public function index(Request $request)
     {
         Registry::authorize('expenses');
-        $query = Expense::query();
+        $query = Expense::with('account');
         if ($request->filled('q')) {
             $search = mb_substr((string) $request->q, 0, 150);
             $query->where(function ($query) use ($search) {
-                foreach (['category', 'description', 'amount', 'method', 'expense_date'] as $column) {
+                foreach (['category', 'description', 'amount', 'expense_date'] as $column) {
                     $query->orWhere($column, 'like', '%' . $search . '%');
                 }
+                $query->orWhereHas('account', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
 
@@ -27,8 +28,8 @@ class ExpenseController extends Controller
         if ($request->filled('category')) {
             $query->where('category', (string) $request->category);
         }
-        if ($request->filled('method')) {
-            $query->where('method', (string) $request->method);
+        if ($request->filled('account_id')) {
+            $query->where('account_id', (int) $request->account_id);
         }
 
         $records = $query->latest('id')->paginate(per_page())->withQueryString();
@@ -62,6 +63,7 @@ class ExpenseController extends Controller
     public function show(Expense $expense)
     {
         Registry::authorize('expenses');
+        $expense->load('account');
 
         return view('expenses.show', ['module' => 'expenses', 'record' => $expense]);
     }

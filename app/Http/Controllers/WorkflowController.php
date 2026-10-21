@@ -73,7 +73,7 @@ class WorkflowController extends Controller
                 $data = $request->validate([
                     'amount' => 'required|numeric|gt:0|max:999999999',
                     'type' => ['required', Rule::in(['receipt', 'refund'])],
-                    'method' => ['required', Rule::in(['cash', 'bkash', 'nagad', 'bank'])],
+                    'account_id' => ['required', 'integer', Rule::exists('accounts', 'id')],
                     'transaction_ref' => 'nullable|string|max:150',
                     'reason' => 'nullable|string|max:255',
                 ]);

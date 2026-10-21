@@ -12,12 +12,8 @@ return new class extends Migration {
             $table->string('category', 100);
             $table->string('description', 255);
             $table->decimal('amount', 12, 2);
-            $table->enum('method', [
-                'cash',
-                'bkash',
-                'nagad',
-                'bank',
-            ]);
+            $table->unsignedBigInteger('account_id')->nullable();
+
             $table->date('expense_date');
             $table->dateTime('created_at')->useCurrent();
         });

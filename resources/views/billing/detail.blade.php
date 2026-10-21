@@ -125,14 +125,9 @@
                         'value' => null,
                     ])
                     @include('components.field', [
-                        'name' => 'method',
-                        'field' => [
-                            'পদ্ধতি',
-                            'select',
-                            true,
-                            ['cash' => 'ক্যাশ', 'bkash' => 'bKash', 'nagad' => 'Nagad', 'bank' => 'ব্যাংক'],
-                        ],
-                        'value' => 'cash',
+                        'name' => 'account_id',
+                        'field' => ['অ্যাকাউন্ট', 'select', true, account_options()->pluck('name', 'id')->all()],
+                        'value' => account_options()->firstWhere('is_default', true)?->id,
                     ])
                     @include('components.field', [
                         'name' => 'type',
@@ -174,7 +169,7 @@
                 <th>রসিদ</th>
                 <th>সময়</th>
                 <th>ধরন</th>
-                <th>পদ্ধতি</th>
+                <th>অ্যাকাউন্ট</th>
                 <th>পরিমাণ</th>
                 <th>অ্যাকশন</th>
             </tr>
@@ -183,7 +178,7 @@
                     <td>RC-{{ $payment->id }}</td>
                     <td>{{ datetime_to_view($payment->paid_at) }}</td>
                     <td>{{ $payment->type }} {{ $payment->voided_at ? '· বাতিল' : '' }}</td>
-                    <td>{{ $payment->method }}</td>
+                    <td>{{ $payment->account?->name }}</td>
                     <td>{{ \App\Support\Format::money($payment->amount) }}</td>
                     <td class="noprint">
                         @if (!$payment->voided_at && auth()->user()->role === 'admin')

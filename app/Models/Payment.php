@@ -12,7 +12,7 @@ class Payment extends Model
         'invoice_id',
         'amount',
         'type',
-        'method',
+        'account_id',
         'transaction_ref',
         'reason',
         'paid_at',
@@ -24,4 +24,8 @@ class Payment extends Model
     protected $casts = [
         'amount' => 'decimal:2',
     ];
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'account_id');
+    }
 }

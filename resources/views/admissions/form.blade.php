@@ -66,10 +66,11 @@
                                 value="{{ old('advance', 0) }}">
                         </div>
                         <div>
-                            <label for="method">পদ্ধতি *</label>
-                            <select id="method" name="method" required>
-                                @foreach (['cash' => 'ক্যাশ', 'bkash' => 'bKash', 'nagad' => 'Nagad', 'bank' => 'ব্যাংক'] as $key => $label)
-                                    <option value="{{ $key }}" @selected((string) old('method', 'cash') === (string) $key)>{{ $label }}
+                            <label for="account_id">অ্যাকাউন্ট *</label>
+                            <select class="js-select2" id="account_id" name="account_id" required>
+                                @foreach (account_options() as $a)
+                                    <option value="{{ $a->id }}" @selected((string) old('account_id', $a->is_default ? $a->id : '') === (string) $a->id)>
+                                        {{ $a->name }}{{ $a->account_number ? ' — ' . $a->account_number : '' }}
                                     </option>
                                 @endforeach
                             </select>

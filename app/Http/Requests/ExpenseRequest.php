@@ -23,7 +23,7 @@ class ExpenseRequest extends FormRequest
             'category'     => ['required', 'string', 'max:100'],
             'description'  => ['required', 'string', 'max:255'],
             'amount'       => ['required', 'numeric', 'gt:0', 'max:999999999'],
-            'method'       => ['required', Rule::in(['cash', 'bkash', 'nagad', 'bank'])],
+            'account_id' => ['required', 'integer', Rule::exists('accounts', 'id')],
             'expense_date' => ['required', 'date_format:Y-m-d'],
         ];
     }
@@ -34,7 +34,7 @@ class ExpenseRequest extends FormRequest
             'category'     => 'খাত',
             'description'  => 'বিবরণ',
             'amount'       => 'পরিমাণ',
-            'method'       => 'পদ্ধতি',
+            'account_id'   => 'অ্যাকাউন্ট',
             'expense_date' => 'তারিখ',
         ];
     }
