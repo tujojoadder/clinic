@@ -8,7 +8,12 @@
     <x-list-print title="খরচের তালিকা" :paginator="$records">
         <section class="panel list">
             @php
-                $hasFilter = request()->filled('q') || request()->filled('category') || request()->filled('account_id');
+                // পুরনো এন্ট্রির (account_id নেই) জন্য fallback
+                $methods = ['cash' => 'ক্যাশ', 'bkash' => 'bKash', 'nagad' => 'Nagad', 'bank' => 'ব্যাংক'];
+                $hasFilter =
+                    request()->filled('q') ||
+                    request()->filled('expense_category_id') ||
+                    request()->filled('account_id');
             @endphp
 
             <div class="filters">
@@ -34,11 +39,11 @@
 
                 {{-- Row 2: ড্রপডাউন ফিল্টার + রিসেট --}}
                 <div class="filter-row noprint">
-                    <select class="js-select2" name="category" form="expenseFilter" data-label="খাত"
+                    <select class="js-select2" name="expense_category_id" form="expenseFilter" data-label="খাত"
                         onchange="this.form.submit()">
                         <option value="">সব খাত</option>
-                        @foreach ($categories as $c)
-                            <option value="{{ $c }}" @selected(request('category') === $c)>{{ $c }}</option>
+                        @foreach (expense_category_options() as $c)
+                            <option value="{{ $c->id }}" @selected((string) request('expense_category_id') === (string) $c->id)>{{ $c->name }}</option>
                         @endforeach
                     </select>
 
@@ -78,10 +83,10 @@
                         @forelse($records as $record)
                             <tr>
                                 <td>#{{ $record->id }}</td>
-                                <td>{{ $record->category }}</td>
+                                <td>{{ $record->category?->name }}</td>
                                 <td>{{ \Illuminate\Support\Str::limit($record->description, 45) }}</td>
                                 <td>{{ $record->amount }}</td>
-                                <td>{{ $record->account?->name }}</td>
+                                <td>{{ $record->account?->name ?? ($methods[$record->method] ?? $record->method) }}</td>
                                 <td>{{ date_to_view($record->expense_date) }}</td>
                                 <td class="noprint">
                                     <a class="btn abtn view" href="{{ route('expenses.show', $record) }}"><i

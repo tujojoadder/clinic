@@ -85,3 +85,12 @@ if (!function_exists('account_options')) {
         return \App\Models\Account::orderByDesc('is_default')->orderBy('name')->get(['id', 'name', 'account_number', 'is_default']);
     }
 }
+
+
+if (!function_exists('expense_category_options')) {
+    function expense_category_options()
+    {
+        return \App\Models\ExpenseCategory::orderBy('name')
+            ->get(['id', 'name']);
+    }
+}

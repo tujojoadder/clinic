@@ -601,6 +601,23 @@ return [
             ],
             'model' => 'App\\Models\\Account',
         ],
+        'expense_categories' => [
+            'title' => 'খরচের খাত',
+            'icon' => 'fa-solid fa-tags',
+            'table' => 'expense_categories',
+            'read' => [
+                'cashier',
+            ],
+            'write' => [],
+            'fields' => [
+                'name' => [
+                    'খাতের নাম',
+                    'text',
+                    true,
+                ],
+            ],
+            'model' => 'App\\Models\\ExpenseCategory',
+        ],
 
         'reports' => [
             'title' => 'রিপোর্ট',
@@ -814,7 +831,12 @@ return [
         [
             'title' => 'বিলিং ও আয়-ব্যয়',
             'icon'  => 'fa-solid fa-wallet',
-            'items' => ['invoices', 'expenses', 'accounts'],
+            'items' => [
+                'invoices',
+                'expenses',
+                'expense_categories',
+                'accounts',
+            ],
         ],
         [
             'title' => 'রিপোর্ট',

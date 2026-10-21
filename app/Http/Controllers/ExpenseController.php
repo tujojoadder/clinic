@@ -13,20 +13,21 @@ class ExpenseController extends Controller
     public function index(Request $request)
     {
         Registry::authorize('expenses');
-        $query = Expense::with('account');
+        $query = Expense::with('account', 'category');
         if ($request->filled('q')) {
             $search = mb_substr((string) $request->q, 0, 150);
             $query->where(function ($query) use ($search) {
-                foreach (['category', 'description', 'amount', 'expense_date'] as $column) {
+                foreach (['description', 'amount', 'expense_date'] as $column) {
                     $query->orWhere($column, 'like', '%' . $search . '%');
                 }
+                $query->orWhereHas('category', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
                 $query->orWhereHas('account', fn($q) => $q->where('name', 'like', '%' . $search . '%'));
             });
         }
 
         // ড্রপডাউন ফিল্টার (সব AND হিসেবে কাজ করবে)
-        if ($request->filled('category')) {
-            $query->where('category', (string) $request->category);
+        if ($request->filled('expense_category_id')) {
+            $query->where('expense_category_id', (int) $request->expense_category_id);
         }
         if ($request->filled('account_id')) {
             $query->where('account_id', (int) $request->account_id);
@@ -35,9 +36,8 @@ class ExpenseController extends Controller
         $records = $query->latest('id')->paginate(per_page())->withQueryString();
 
         return view('expenses.index', [
-            'module'     => 'expenses',
-            'records'    => $records,
-            'categories' => Expense::query()->distinct()->orderBy('category')->pluck('category'),
+            'module'  => 'expenses',
+            'records' => $records,
         ]);
     }
 
@@ -63,7 +63,7 @@ class ExpenseController extends Controller
     public function show(Expense $expense)
     {
         Registry::authorize('expenses');
-        $expense->load('account');
+        $expense->load('account', 'category');
 
         return view('expenses.show', ['module' => 'expenses', 'record' => $expense]);
     }

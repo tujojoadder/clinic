@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AccountController, AuthController, DashboardController, EntityController, WorkflowController, ReportController, SettingsController, PatientController, DoctorController, ReferenceController, BedController, VisitController, AdmissionController, NursingRecordController, LabOrderController, InvoiceController, ExpenseController, DoctorLedgerController, SpecialtyController, TestController, TestParameterController, UserController};
+use App\Http\Controllers\{AccountController, AuthController, DashboardController, EntityController, WorkflowController, ReportController, SettingsController, PatientController, DoctorController, ReferenceController, BedController, VisitController, AdmissionController, NursingRecordController, LabOrderController, InvoiceController, ExpenseController, DoctorLedgerController, ExpenseCategoryController, SpecialtyController, TestController, TestParameterController, UserController};
 use App\Http\Middleware\{ActiveSession, SecurityHeaders};
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -65,7 +65,8 @@ Route::middleware(SecurityHeaders::class)->group(function () {
         Route::resource('users', UserController::class)->whereNumber('user');
         Route::resource('specialties', SpecialtyController::class)->whereNumber('specialty');
         Route::resource('accounts', AccountController::class)->only(['index', 'store', 'update', 'destroy'])->whereNumber('account');
-
+        Route::resource('expense_categories', ExpenseCategoryController::class)
+            ->only(['index', 'store', 'update', 'destroy']);
 
         // ── Generic fallback (remove after all modules are migrated) ──
         Route::get('/{module}', [EntityController::class, 'index'])->name('entities.index');

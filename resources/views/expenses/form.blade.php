@@ -12,9 +12,16 @@
                 @endif
                 <div class="formgrid">
                     <div>
-                        <label for="category">খাত *</label>
-                        <input id="category" name="category" type="text" value="{{ old('category', $record->category) }}"
-                            required>
+                        <label for="expense_category_id">খাত *</label>
+                        <select class="js-select2" id="expense_category_id" name="expense_category_id" required>
+                            <option value="">নির্বাচন করুন</option>
+
+                            @foreach (expense_category_options() as $c)
+                                <option value="{{ $c->id }}" @selected((string) old('expense_category_id', $record->expense_category_id ?? '') === (string) $c->id)>
+                                    {{ $c->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div>
                         <label for="description">বিবরণ *</label>

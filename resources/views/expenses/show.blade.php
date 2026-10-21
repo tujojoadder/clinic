@@ -6,7 +6,10 @@
         </div>
         <div class="panelbody">
             <div class="detailgrid">
-                <div><label>খাত</label><strong>{{ $record->category }}</strong></div>
+                <div>
+                    <label>খাত</label>
+                    <strong>{{ $record->category?->name ?? '—' }}</strong>
+                </div>
                 <div><label>বিবরণ</label><strong>{{ $record->description }}</strong></div>
                 <div><label>পরিমাণ</label><strong>{{ $record->amount }}</strong></div>
                 <div><label>অ্যাকাউন্ট</label><strong>{{ $record->account?->name }}</strong></div>

@@ -20,22 +20,22 @@ class ExpenseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category'     => ['required', 'string', 'max:100'],
-            'description'  => ['required', 'string', 'max:255'],
-            'amount'       => ['required', 'numeric', 'gt:0', 'max:999999999'],
-            'account_id' => ['required', 'integer', Rule::exists('accounts', 'id')],
-            'expense_date' => ['required', 'date_format:Y-m-d'],
+            'expense_category_id' => ['required', 'integer', Rule::exists('expense_categories', 'id')],
+            'description'         => ['required', 'string', 'max:255'],
+            'amount'              => ['required', 'numeric', 'gt:0', 'max:999999999'],
+            'account_id'          => ['required', 'integer', Rule::exists('accounts', 'id')],
+            'expense_date'        => ['required', 'date_format:Y-m-d'],
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'category'     => 'খাত',
-            'description'  => 'বিবরণ',
-            'amount'       => 'পরিমাণ',
-            'account_id'   => 'অ্যাকাউন্ট',
-            'expense_date' => 'তারিখ',
+            'expense_category_id' => 'খাত',
+            'description'         => 'বিবরণ',
+            'amount'              => 'পরিমাণ',
+            'account_id'          => 'অ্যাকাউন্ট',
+            'expense_date'        => 'তারিখ',
         ];
     }
 }

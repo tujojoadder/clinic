@@ -9,7 +9,7 @@ class Expense extends Model
     protected $table = 'expenses';
     public $timestamps = false;
     protected $fillable = [
-        'category',
+        'expense_category_id',
         'description',
         'amount',
         'account_id',
@@ -22,5 +22,9 @@ class Expense extends Model
     public function account()
     {
         return $this->belongsTo(Account::class, 'account_id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(ExpenseCategory::class, 'expense_category_id');
     }
 }
